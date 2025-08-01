@@ -5,3 +5,6 @@ class User(BaseModel):
     email: str
     first_name: str
     last_name: str
+
+class CreateUserRequest(User):
+    password: str

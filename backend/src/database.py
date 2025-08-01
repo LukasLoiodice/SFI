@@ -1,4 +1,5 @@
 from sqlalchemy import URL, create_engine
+from sqlalchemy.orm import sessionmaker
 from src.config import config
 from src.models import Base
 from src.users.models import *
@@ -21,3 +22,5 @@ engine = create_engine(url, echo=True)
 
 # Create new tables
 Base.metadata.create_all(engine)
+
+sessionLocal = sessionmaker(bind=engine)
