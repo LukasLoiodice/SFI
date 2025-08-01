@@ -1,9 +1,7 @@
 from sqlalchemy import URL, create_engine
-from sqlalchemy.orm import DeclarativeBase
 from src.config import config
-
-class Base(DeclarativeBase):
-    pass
+from src.models import Base
+from src.users.models import *
 
 # Read the password secret
 db_password: str
@@ -20,3 +18,6 @@ url = URL.create(
 )
 
 engine = create_engine(url, echo=True)
+
+# Create new tables
+Base.metadata.create_all(engine)
