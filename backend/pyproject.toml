@@ -3,10 +3,13 @@ name = "app"
 version = "0.1.0"
 description = ""
 authors = ["Daviruss1969 <lukasloiodic@gmail.com>"]
-readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
+fastapi = {extras = ["standard"], version = "^0.116.1"}
+pyjwt = "^2.10.1"
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+pydantic-settings = "^2.10.1"
 
 
 [build-system]
