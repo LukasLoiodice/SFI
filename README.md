@@ -1,6 +1,15 @@
 # SFI
 Smart factory inspector
 
+## Structures
+```
+Frontend:
+https://github.com/alan2207/bulletproof-react/blob/master/docs/project-structure.md
+
+Backend:
+https://github.com/zhanymkanov/fastapi-best-practices
+```
+
 ## Stack
 ```
 Frontend :
