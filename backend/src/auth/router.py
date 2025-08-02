@@ -1,25 +1,18 @@
 from typing import Annotated
-from datetime import datetime, timedelta, timezone
+from datetime import timedelta
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from passlib.context import CryptContext
+from fastapi.security import OAuth2PasswordRequestForm
 from src.users import schemas as user_schemas
-from sqlalchemy.orm import Session
 from src.users import models as user_models
 from src.config import config
 from src.auth.schemas import *
-from src.dependencies import get_db, oauth2_scheme
-import jwt
-
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+from src.dependencies import get_db, get_current_user
+from src.auth.service import *
+from src.users import service as user_service
 
 router = APIRouter(
     tags=["auth"],
 )
-
-secret_key: str
-with open(config.auth.JWT_SECRET_PATH) as f:
-    secret_key = f.read().strip()
 
 @router.post("/login")
 async def login(
@@ -27,43 +20,48 @@ async def login(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()]
 ) -> Token:
     """
-    Login using username and password.
+    Login using email and password.
     """
     user = authenticate_user(db, form_data.username, form_data.password)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect username or password"
+            detail="Incorrect email or password"
         )
     access_token_expires = timedelta(minutes=config.auth.JWT_EXP)
-    access_token = create_access_token(data={"sub": user.username}, expires_delta=access_token_expires)
+    access_token = create_access_token(data={"sub": str(user.id)}, expires_delta=access_token_expires)
     return Token(access_token=access_token, token_type="bearer")
 
 @router.get("/whoami")
 async def whoami(
-    token: Annotated[str, Depends(oauth2_scheme)]
+    user_id: Annotated[get_current_user, Depends()]
 ) -> str:
-    pass
+    return user_id
 
+@router.post('/register')
+async def login(
+    db: Annotated[get_db, Depends()],
+    req: RegisterRequest
+) -> RegisterResponse:
+    """
+    Create an account.
+    """
+    user_model = user_models.UserModel(
+        password_hash=get_password_hash(req.password),
+        email=req.email,
+        first_name=req.first_name,
+        last_name=req.last_name
+    )
 
-def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
+    user_model = user_service.create_user(db, user_model)
 
-def get_password_hash(password: str):
-    return pwd_context.hash(password)
+    res = RegisterResponse(
+        user=user_schemas.User(
+            id=user_model.id,
+            email=user_model.email,
+            first_name=user_model.first_name,
+            last_name=user_model.last_name
+        )
+    )
 
-def authenticate_user(db: Session, username: str, password: str) -> user_schemas.User | None :
-    user = db.query(user_models.User).filter(user_models.User.email == username).first()
-    if not user or not verify_password(password, user.password_hash):
-        return None
-    return user
-
-def create_access_token(data: dict, expires_delta: timedelta | None = None):
-    to_encode = data.copy()
-    if expires_delta:
-        expire = datetime.now(timezone.utc) + expires_delta
-    else:
-        expire = datetime.now(timezone.utc) + timedelta(minutes=15)
-    to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, secret_key, algorithm=config.auth.JWT_ALG)
-    return encoded_jwt
+    return res
