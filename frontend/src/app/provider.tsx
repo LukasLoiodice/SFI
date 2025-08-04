@@ -6,7 +6,7 @@ const AuthContext = createContext<any>(null);
 
 interface UserStorage {
     email: string;
-    token: string
+    token: string;
 }
 
 export function AppProvider({ children }: { children: ReactNode }) {
