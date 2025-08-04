@@ -1,6 +1,6 @@
 import React, { useState } from "react"
-import { useAuth } from "../../../app/provider";
 import { useNavigate, Link } from "react-router";
+import { useAuth } from "src/app/provider";
 
 export const LoginForm = () => {
 	const [email, setEmail] = useState('')

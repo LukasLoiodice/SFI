@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { createContext, useContext, useState } from "react";
-import {loginService} from "../services/auth"
+import {loginService} from "src/services/auth"
 
 const AuthContext = createContext<any>(null);
 

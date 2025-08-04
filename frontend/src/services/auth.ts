@@ -1,5 +1,5 @@
 import axios from "axios";
-import { backendUrl } from "../consts/env";
+import { backendUrl } from "src/consts/env";
 
 export async function loginService(email: string, password: string): Promise<string> {
   try {
