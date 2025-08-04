@@ -1,9 +1,10 @@
 import axios from "axios";
+import { backendUrl } from "../consts/env";
 
 export async function loginService(email: string, password: string): Promise<string> {
   try {
     const response = await axios.post(
-      "http://localhost:8000/login",
+      `${backendUrl}/login`,
       new URLSearchParams({
         username: email,
         password: password,
