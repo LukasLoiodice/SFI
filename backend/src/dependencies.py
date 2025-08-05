@@ -19,8 +19,7 @@ def get_db() -> Session:
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
-async def get_current_user(
-        db: Annotated[get_db, Depends()],
+async def get_current_user_id(
         token: Annotated[str, Depends(oauth2_scheme)]
     ) -> str:
     credentials_exception = HTTPException(

@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useNavigate, Link } from "react-router";
-import { loginService } from "src/services/auth";
+import { loginService, whoamiService } from "src/services/auth";
 import { useAuthStore } from "src/stores/auth";
 
 export const LoginForm = () => {
@@ -14,9 +14,10 @@ export const LoginForm = () => {
 	const handleLogin = async (e: React.FormEvent) => {
 		e.preventDefault()
 		try {
-			const res = await loginService(email, password)
-			localStorage.setItem("token", res.token)
-			setCurrentUser(res.token, res.user)
+			const token = await loginService(email, password)
+			const user = await whoamiService(token)
+			localStorage.setItem("token",token)
+			setCurrentUser(token, user)
 			navigate("/");
 		} catch (err: any) {
 			setError("Identifiants incorrects.");

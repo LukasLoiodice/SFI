@@ -5,14 +5,13 @@ import { useAuthStore } from 'src/stores/auth'
 
 const NavContextPannel = (): JSX.Element => {
     const isLoggedIn = useAuthStore((state) => state.isLoggedIn)
-    const user = useAuthStore((state) => state.user)
 
     if (isLoggedIn) {
         return (
             <>
-                <div className="hover:text-emerald-300 transition-colors duration-200">
-                    <p>{user?.firstName}</p>
-                </div>
+                <Link to="/login" className="hover:text-emerald-300 transition-colors duration-200">
+                    Mon compte
+                </Link>
             </>
         )
     }

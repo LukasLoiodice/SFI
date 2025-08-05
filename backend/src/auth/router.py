@@ -6,7 +6,7 @@ from src.users import schemas as user_schemas
 from src.users import models as user_models
 from src.config import config
 from src.auth.schemas import *
-from src.dependencies import get_db, get_current_user
+from src.dependencies import get_db, get_current_user_id
 from src.auth.service import *
 from src.users import service as user_service
 
@@ -18,7 +18,7 @@ router = APIRouter(
 async def login(
     db: Annotated[get_db, Depends()],
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()]
-) -> LoginResponse:
+) -> Token:
     """
     Login using email and password.
     """
@@ -32,23 +32,21 @@ async def login(
     access_token_expires = timedelta(minutes=config.auth.JWT_EXP)
     access_token = create_access_token(data={"sub": str(user_model.id)}, expires_delta=access_token_expires)
 
-    res = LoginResponse(
-        user=user_schemas.User(
-            id=user_model.id,
-            email=user_model.email,
-            first_name=user_model.first_name,
-            last_name=user_model.last_name
-        ),
-        token=Token(access_token=access_token, token_type="bearer")
-    )
-
-    return res
+    return Token(access_token=access_token, token_type="bearer")
 
 @router.get("/whoami")
 async def whoami(
-    user_id: Annotated[get_current_user, Depends()]
-) -> str:
-    return user_id
+    user_id: Annotated[get_current_user_id, Depends()],
+    db: Annotated[get_db, Depends()],
+) -> user_schemas.User:
+    user_model = user_service.get_user(db, user_id)
+    
+    return user_schemas.User(
+        id=user_model.id,
+        email=user_model.email,
+        first_name=user_model.first_name,
+        last_name=user_model.last_name
+    )
 
 @router.post('/register')
 async def login(

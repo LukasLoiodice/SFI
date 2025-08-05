@@ -4,7 +4,7 @@ import type { User } from "src/models/user";
 
 
 
-export async function loginService(email: string, password: string): Promise<{user: User, token: string}> {
+export async function loginService(email: string, password: string): Promise<string> {
   try {
     const response = await axios.post(
       `${backendUrl}/login`,
@@ -19,16 +19,7 @@ export async function loginService(email: string, password: string): Promise<{us
       }
     );
 
-    const res = response.data.user
-
-    const user: User = {
-      id: res.id,
-      email: res.email,
-      firstName: res.first_name,
-      lastName: res.last_name
-    }
-
-    return {user: user, token: response.data.token.access_token};
+    return response.data.access_token
   } catch (error: any) {
     if (error.response) {
       throw new Error("Identifiants invalides");
@@ -38,7 +29,7 @@ export async function loginService(email: string, password: string): Promise<{us
   }
 }
 
-export async function registerService(user: User, password: string) {
+export async function registerService(user: User, password: string): Promise<void> {
   try {
     await axios.post(
       `${backendUrl}/register`,
@@ -52,6 +43,33 @@ export async function registerService(user: User, password: string) {
 
     return
   } catch (error: any) {
-    throw new Error("Requête invalide")
+    throw new Error("register error")
+  }
+}
+
+export async function whoamiService(token: string): Promise<User> {
+  try {
+    const response = await axios.get(
+      `${backendUrl}/whoami`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+
+
+    const user_back = response.data
+
+    const user: User = {
+      id: user_back.id,
+      email: user_back.email,
+      firstName: user_back.first_name,
+      lastName: user_back.last_name
+    }
+
+    return user
+  } catch (error: any) {
+    throw new Error("whoami error")
   }
 }
