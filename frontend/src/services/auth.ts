@@ -1,7 +1,10 @@
 import axios from "axios";
 import { backendUrl } from "src/consts/env";
+import type { User } from "src/models/user";
 
-export async function loginService(email: string, password: string): Promise<string> {
+
+
+export async function loginService(email: string, password: string): Promise<{user: User, token: string}> {
   try {
     const response = await axios.post(
       `${backendUrl}/login`,
@@ -16,9 +19,16 @@ export async function loginService(email: string, password: string): Promise<str
       }
     );
 
-    const { access_token } = response.data;
+    const res = response.data.user
 
-    return access_token;
+    const user: User = {
+      id: res.id,
+      email: res.email,
+      firstName: res.first_name,
+      lastName: res.last_name
+    }
+
+    return {user: user, token: response.data.token.access_token};
   } catch (error: any) {
     if (error.response) {
       throw new Error("Identifiants invalides");
@@ -28,14 +38,14 @@ export async function loginService(email: string, password: string): Promise<str
   }
 }
 
-export async function registerService(email: string, firstName: string, lastName: string, password: string) {
+export async function registerService(user: User, password: string) {
   try {
     await axios.post(
       `${backendUrl}/register`,
       {
-        "email": email,
-        "first_name": firstName ,
-        "last_name": lastName,
+        "email": user.email,
+        "first_name": user.firstName,
+        "last_name": user.lastName,
         "password": password
       }
     )

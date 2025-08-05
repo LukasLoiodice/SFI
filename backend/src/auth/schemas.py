@@ -8,11 +8,15 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     username: str
 
+class LoginResponse(BaseModel):
+    user: user_schemas.User
+    token: Token
+
 class RegisterRequest(BaseModel):
     email: str
     first_name: str
     last_name: str
-    password: str  # mot de passe brut
+    password: str
 
 class RegisterResponse(BaseModel):
     user: user_schemas.User

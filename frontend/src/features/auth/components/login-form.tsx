@@ -14,9 +14,9 @@ export const LoginForm = () => {
 	const handleLogin = async (e: React.FormEvent) => {
 		e.preventDefault()
 		try {
-			const token = await loginService(email, password)
-			localStorage.setItem("token", token)
-			setCurrentUser(token, email)
+			const res = await loginService(email, password)
+			localStorage.setItem("token", res.token)
+			setCurrentUser(res.token, res.user)
 			navigate("/");
 		} catch (err: any) {
 			setError("Identifiants incorrects.");

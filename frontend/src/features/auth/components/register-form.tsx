@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Link } from "react-router"
 import { registerService } from "src/services/auth"
 import { useNavigate } from "react-router"
+import type { User } from "src/models/user"
 
 export const RegisterForm = () => {
     const [error, setError] = useState('')
@@ -15,7 +16,13 @@ export const RegisterForm = () => {
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault()
         try {
-            await registerService(email, firstName, lastName, password)
+            const user: User = {
+                id: 0,
+                email: email,
+                firstName: firstName,
+                lastName: lastName
+            }
+            await registerService(user, password)
             navigate("/login")
         } catch (err: any) {
 			setError("Erreur dans la création du compte.");

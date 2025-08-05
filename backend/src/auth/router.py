@@ -18,19 +18,31 @@ router = APIRouter(
 async def login(
     db: Annotated[get_db, Depends()],
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()]
-) -> Token:
+) -> LoginResponse:
     """
     Login using email and password.
     """
-    user = authenticate_user(db, form_data.username, form_data.password)
-    if not user:
+    user_model = authenticate_user(db, form_data.username, form_data.password)
+    if not user_model:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect email or password"
         )
+
     access_token_expires = timedelta(minutes=config.auth.JWT_EXP)
-    access_token = create_access_token(data={"sub": str(user.id)}, expires_delta=access_token_expires)
-    return Token(access_token=access_token, token_type="bearer")
+    access_token = create_access_token(data={"sub": str(user_model.id)}, expires_delta=access_token_expires)
+
+    res = LoginResponse(
+        user=user_schemas.User(
+            id=user_model.id,
+            email=user_model.email,
+            first_name=user_model.first_name,
+            last_name=user_model.last_name
+        ),
+        token=Token(access_token=access_token, token_type="bearer")
+    )
+
+    return res
 
 @router.get("/whoami")
 async def whoami(
