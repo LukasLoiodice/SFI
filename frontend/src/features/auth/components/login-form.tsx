@@ -1,23 +1,26 @@
 import React, { useState } from "react"
 import { useNavigate, Link } from "react-router";
-import { useAuth } from "src/app/provider";
+import { loginService } from "src/services/auth";
+import { useAuthStore } from "src/stores/auth";
 
 export const LoginForm = () => {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [error, setError] = useState('')
 
-	const {login} = useAuth()
+	const setCurrentUser = useAuthStore((state) => state.setCurrentUser)
 	const navigate = useNavigate()
 
-	const handleLogin = async(e: React.FormEvent) => {
+	const handleLogin = async (e: React.FormEvent) => {
 		e.preventDefault()
-    try {
-      await login(email, password)
-      navigate("/");
-    } catch (err: any) {
-      setError("Identifiants incorrects.");
-    }
+		try {
+			const token = await loginService(email, password)
+			localStorage.setItem("token", token)
+			setCurrentUser(email)
+			navigate("/");
+		} catch (err: any) {
+			setError("Identifiants incorrects.");
+		}
 	}
 
 	return (
