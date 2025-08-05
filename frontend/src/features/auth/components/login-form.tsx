@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useNavigate, Link } from "react-router";
-import { loginService, whoamiService } from "src/services/auth";
+import { getCurrentUserService, loginService } from "src/services/auth";
 import { useAuthStore } from "src/stores/auth";
 
 export const LoginForm = () => {
@@ -15,7 +15,7 @@ export const LoginForm = () => {
 		e.preventDefault()
 		try {
 			const token = await loginService(email, password)
-			const user = await whoamiService(token)
+			const user = await getCurrentUserService(token)
 			localStorage.setItem("token",token)
 			setCurrentUser(token, user)
 			navigate("/");

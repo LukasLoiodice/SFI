@@ -34,22 +34,8 @@ async def login(
 
     return Token(access_token=access_token, token_type="bearer")
 
-@router.get("/whoami")
-async def whoami(
-    user_id: Annotated[get_current_user_id, Depends()],
-    db: Annotated[get_db, Depends()],
-) -> user_schemas.User:
-    user_model = user_service.get_user(db, user_id)
-    
-    return user_schemas.User(
-        id=user_model.id,
-        email=user_model.email,
-        first_name=user_model.first_name,
-        last_name=user_model.last_name
-    )
-
 @router.post('/register')
-async def login(
+async def register(
     db: Annotated[get_db, Depends()],
     req: RegisterRequest
 ) -> RegisterResponse:
@@ -75,3 +61,26 @@ async def login(
     )
 
     return res
+
+@router.get("/me")
+async def get_current_user(
+    user_id: Annotated[get_current_user_id, Depends()],
+    db: Annotated[get_db, Depends()],
+) -> user_schemas.User:
+    user_model = user_service.get_user(db, user_id)
+    
+    return user_schemas.User(
+        id=user_model.id,
+        email=user_model.email,
+        first_name=user_model.first_name,
+        last_name=user_model.last_name
+    )
+
+@router.put("/me")
+async def put_current_user(
+    user_id: Annotated[get_current_user_id, Depends()],
+    db: Annotated[get_db, Depends()],
+    req: PutCurrentUserRequest
+) -> None:
+    user_service.put_user(db, user_id, req.email, req.first_name, req.last_name)
+    return

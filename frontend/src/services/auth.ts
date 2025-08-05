@@ -47,10 +47,10 @@ export async function registerService(user: User, password: string): Promise<voi
   }
 }
 
-export async function whoamiService(token: string): Promise<User> {
+export async function getCurrentUserService(token: string): Promise<User> {
   try {
     const response = await axios.get(
-      `${backendUrl}/whoami`,
+      `${backendUrl}/me`,
       {
         headers: {
           Authorization: `Bearer ${token}`
@@ -70,6 +70,28 @@ export async function whoamiService(token: string): Promise<User> {
 
     return user
   } catch (error: any) {
-    throw new Error("whoami error")
+    throw new Error("getCurrentUser error")
+  }
+}
+
+export async function editCurrentUserService(token: string, email: string, firstName: string, lastName: string): Promise<void> {
+  try {
+    await axios.put(
+      `${backendUrl}/me`,
+      {
+        email: email,
+        first_name: firstName,
+        last_name: lastName
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+
+    return
+  } catch (error: any) {
+    throw new Error("editCurrentUser error")
   }
 }
