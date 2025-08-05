@@ -27,3 +27,21 @@ export async function loginService(email: string, password: string): Promise<str
     }
   }
 }
+
+export async function registerService(email: string, firstName: string, lastName: string, password: string) {
+  try {
+    await axios.post(
+      `${backendUrl}/register`,
+      {
+        "email": email,
+        "first_name": firstName ,
+        "last_name": lastName,
+        "password": password
+      }
+    )
+
+    return
+  } catch (error: any) {
+    throw new Error("Requête invalide")
+  }
+}

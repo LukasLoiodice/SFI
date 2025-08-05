@@ -16,7 +16,7 @@ export const LoginForm = () => {
 		try {
 			const token = await loginService(email, password)
 			localStorage.setItem("token", token)
-			setCurrentUser(email)
+			setCurrentUser(token, email)
 			navigate("/");
 		} catch (err: any) {
 			setError("Identifiants incorrects.");
@@ -24,7 +24,7 @@ export const LoginForm = () => {
 	}
 
 	return (
-		<div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+		<div className="min-h-screen flex items-center justify-center px-4">
 			<div className="bg-white shadow-md rounded-2xl p-8 w-full max-w-md">
 				<h1 className="text-2xl font-bold text-center text-emerald-700 mb-6">
 					Connexion
