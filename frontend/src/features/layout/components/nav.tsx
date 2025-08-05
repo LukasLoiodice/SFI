@@ -5,12 +5,21 @@ import { useAuthStore } from 'src/stores/auth'
 
 const NavContextPannel = (): JSX.Element => {
     const isLoggedIn = useAuthStore((state) => state.isLoggedIn)
+    const clearCurrentUser = useAuthStore((state) => state.clearCurrentUser)
+
+    const handleLogout = async () => {
+        clearCurrentUser()
+        localStorage.removeItem("token")
+    }
 
     if (isLoggedIn) {
         return (
             <>
-                <Link to="/login" className="hover:text-emerald-300 transition-colors duration-200">
+                <Link to="/profile" className="hover:text-emerald-300 transition-colors duration-200">
                     Mon compte
+                </Link>
+                <Link to="/" onClick={handleLogout} className="hover:text-emerald-300 transition-colors duration-200">
+                    Déconnexion
                 </Link>
             </>
         )
