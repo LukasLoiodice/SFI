@@ -7,13 +7,20 @@ from sqlalchemy import pool
 from alembic import context
 from src.models import Base
 from src.users.models import UserModel
+from src.config import config as app_config
 
 _ = UserModel
+
+# Read the password secret
+db_password: str
+with open(app_config.database.DB_PASSWORD_PATH) as f:
+    db_password = f.read().strip()
+
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
-config.set_main_option("sqlalchemy.url", os.getenv('PG_URI'))
+config.set_main_option("sqlalchemy.url", f'postgresql+psycopg2://{app_config.database.DB_USERNAME}:{db_password}@{app_config.database.DB_HOST}:{app_config.database.DB_PORT}/{app_config.database.DB_NAME}')
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.

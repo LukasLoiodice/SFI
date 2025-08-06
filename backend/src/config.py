@@ -1,5 +1,8 @@
+from pathlib import Path
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings, YamlConfigSettingsSource, SettingsConfigDict, PydanticBaseSettingsSource
+
+BASE_DIR = Path(__file__).resolve().parent
 
 class AuthSettings(BaseModel):
     JWT_ALG: str
@@ -16,7 +19,11 @@ class DatabaseSettings(BaseModel):
 class AppConfig(BaseSettings):
     auth: AuthSettings
     database: DatabaseSettings
-    model_config = SettingsConfigDict(yaml_file='config/config.yml', env_nested_delimiter='__')
+    model_config = SettingsConfigDict(
+        yaml_file=f'{BASE_DIR}/config/config.yml',
+        env_nested_delimiter='__',
+        env_file=f'{BASE_DIR.parent}/.env'
+    )
 
     @classmethod
     def settings_customise_sources(
