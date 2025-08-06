@@ -6,7 +6,7 @@ from src.users import schemas as user_schemas
 from src.users import models as user_models
 from src.config import config
 from src.auth.schemas import *
-from src.dependencies import get_db, get_current_user_id
+from src.dependencies import get_db, get_token
 from src.auth.service import *
 from src.users import service as user_service
 
@@ -30,7 +30,7 @@ async def login(
         )
 
     access_token_expires = timedelta(minutes=config.auth.JWT_EXP)
-    access_token = create_access_token(data={"sub": str(user_model.id)}, expires_delta=access_token_expires)
+    access_token = create_access_token(data={"sub": str(user_model.id), "role": user_model.role}, expires_delta=access_token_expires)
 
     return Token(access_token=access_token, token_type="bearer")
 
@@ -65,10 +65,10 @@ async def register(
 
 @router.get("/me")
 async def get_current_user(
-    user_id: Annotated[get_current_user_id, Depends()],
+    token: Annotated[TokenData, Depends(get_token)],
     db: Annotated[get_db, Depends()],
 ) -> user_schemas.User:
-    user_model = user_service.get_user(db, user_id)
+    user_model = user_service.get_user(db, token.user_id)
     
     return user_schemas.User(
         id=user_model.id,
@@ -79,17 +79,17 @@ async def get_current_user(
 
 @router.put("/me")
 async def put_current_user(
-    user_id: Annotated[get_current_user_id, Depends()],
+    token: Annotated[TokenData, Depends(get_token)],
     db: Annotated[get_db, Depends()],
     req: PutCurrentUserRequest
 ) -> None:
-    user_service.put_user(db, user_id, req.email, req.first_name, req.last_name)
+    user_service.put_user(db, token.user_id, req.email, req.first_name, req.last_name)
     return
 
 @router.delete("/me")
 async def delete_current_user(
-    user_id: Annotated[get_current_user_id, Depends()],
+    token: Annotated[TokenData, Depends(get_token)],
     db: Annotated[get_db, Depends()],
 ) -> None:
-    user_service.delete_user(db, user_id)
+    user_service.delete_user(db, token.user_id)
     return

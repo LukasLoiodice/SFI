@@ -5,6 +5,7 @@ from src.auth.service import decode_access_token
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from typing import Annotated
+from src.auth.schemas import TokenData
 
 secret_key: str
 with open(config.auth.JWT_SECRET_PATH) as f:
@@ -19,16 +20,16 @@ def get_db() -> Session:
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
-async def get_current_user_id(
+async def get_token(
         token: Annotated[str, Depends(oauth2_scheme)]
-    ) -> str:
+    ) -> TokenData:
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials"
     )
 
-    id = decode_access_token(token)
-    if id is None:
+    data = decode_access_token(token)
+    if data is None:
         raise credentials_exception
 
-    return id
+    return data

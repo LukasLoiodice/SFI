@@ -1,12 +1,16 @@
 from pydantic import BaseModel
 from src.users import schemas as user_schemas
+from src.users.schemas import Role
+from datetime import datetime
 
 class Token(BaseModel):
     access_token: str
     token_type: str
 
 class TokenData(BaseModel):
-    username: str
+    user_id: str
+    user_role: Role
+    expiration: datetime
 
 class LoginResponse(BaseModel):
     user: user_schemas.User
