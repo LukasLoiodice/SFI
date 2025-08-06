@@ -16,9 +16,16 @@ class DatabaseSettings(BaseModel):
     DB_PASSWORD_PATH: str
     DB_NAME: str
 
+class AdminSettings(BaseModel):
+    ADMIN_EMAIL: str
+    ADMIN_FIRST_NAME: str
+    ADMIN_LAST_NAME: str
+    ADMIN_PASSWORD_HASH_PATH: str
+
 class AppConfig(BaseSettings):
     auth: AuthSettings
     database: DatabaseSettings
+    admin: AdminSettings
     model_config = SettingsConfigDict(
         yaml_file=f'{BASE_DIR}/config/config.yml',
         env_nested_delimiter='__',
