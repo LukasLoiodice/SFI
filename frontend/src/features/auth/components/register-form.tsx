@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Link } from "react-router"
 import { registerService } from "src/services/auth"
 import { useNavigate } from "react-router"
-import type { User } from "src/models/user"
+import { ROLE_ENUM, type User } from "src/models/user"
 
 export const RegisterForm = () => {
     const [error, setError] = useState('')
@@ -20,7 +20,8 @@ export const RegisterForm = () => {
                 id: 0,
                 email: email,
                 firstName: firstName,
-                lastName: lastName
+                lastName: lastName,
+                role: ROLE_ENUM.user
             }
             await registerService(user, password)
             navigate("/login")

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { backendUrl } from "src/consts/env";
-import type { User } from "src/models/user";
+import { StrToRole, type User } from "src/models/user";
 
 
 
@@ -65,7 +65,8 @@ export async function getCurrentUserService(token: string): Promise<User> {
       id: user_back.id,
       email: user_back.email,
       firstName: user_back.first_name,
-      lastName: user_back.last_name
+      lastName: user_back.last_name,
+      role: StrToRole(user_back.role)
     }
 
     return user

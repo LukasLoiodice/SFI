@@ -46,7 +46,8 @@ async def register(
         password_hash=get_password_hash(req.password),
         email=req.email,
         first_name=req.first_name,
-        last_name=req.last_name
+        last_name=req.last_name,
+        role="user"
     )
 
     user_model = user_service.create_user(db, user_model)

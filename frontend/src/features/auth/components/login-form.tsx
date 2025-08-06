@@ -16,7 +16,7 @@ export const LoginForm = () => {
 		try {
 			const token = await loginService(email, password)
 			const user = await getCurrentUserService(token)
-			localStorage.setItem("token",token)
+			localStorage.setItem("token", token)
 			setCurrentUser(token, user)
 			navigate("/");
 		} catch (err: any) {

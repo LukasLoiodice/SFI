@@ -2,6 +2,7 @@ import { useAuthStore } from "src/stores/auth"
 import React, { useState } from "react"
 import { editCurrentUserService, getCurrentUserService, deleteCurrentUserService } from "src/services/auth"
 import { useNavigate } from "react-router"
+import { RoleToStr } from "src/models/user"
 
 export const ProfileComponent = () => {
     const [error, setError] = useState('')
@@ -17,6 +18,7 @@ export const ProfileComponent = () => {
         const [email, setEmail] = useState(user.email)
         const [firstName, setFirstName] = useState(user.firstName)
         const [lastName, setLastName] = useState(user.lastName)
+        const role = RoleToStr(user.role)
 
         const handleEditCurrentUser = async (e: React.FormEvent) => {
             e.preventDefault()
@@ -34,6 +36,7 @@ export const ProfileComponent = () => {
             try {
                 await deleteCurrentUserService(token)
                 clearCurrentUser()
+                localStorage.removeItem("token")
                 navigate('/')
             } catch (err: any) {
                 setError("Erreur lors de la suppréssion de l'utilisatateur.");
@@ -88,6 +91,18 @@ export const ProfileComponent = () => {
                                 className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                                 value={lastName}
                                 onChange={(e) => setLastName(e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-gray-700 font-medium mb-1">
+                                Role
+                            </label>
+                            <input
+                                type="text"
+                                required
+                                disabled
+                                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-gray-100"
+                                value={role}
                             />
                         </div>
                         <button
