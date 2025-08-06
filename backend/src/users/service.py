@@ -16,3 +16,8 @@ def put_user(db: Session, id: int, email: str, first_name: str, last_name: str) 
     db.query(UserModel).filter(UserModel.id == id).update({UserModel.email: email, UserModel.first_name: first_name, UserModel.last_name: last_name})
     db.commit()
     return
+
+def delete_user(db: Session, id: int) -> None:
+    db.query(UserModel).filter(UserModel.id == id).delete()
+    db.commit()
+    return

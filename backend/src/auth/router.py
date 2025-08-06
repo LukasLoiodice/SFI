@@ -84,3 +84,11 @@ async def put_current_user(
 ) -> None:
     user_service.put_user(db, user_id, req.email, req.first_name, req.last_name)
     return
+
+@router.delete("/me")
+async def delete_current_user(
+    user_id: Annotated[get_current_user_id, Depends()],
+    db: Annotated[get_db, Depends()],
+) -> None:
+    user_service.delete_user(db, user_id)
+    return

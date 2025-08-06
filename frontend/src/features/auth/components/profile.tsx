@@ -1,6 +1,7 @@
 import { useAuthStore } from "src/stores/auth"
-import { useState } from "react"
-import { editCurrentUserService, getCurrentUserService } from "src/services/auth"
+import React, { useState } from "react"
+import { editCurrentUserService, getCurrentUserService, deleteCurrentUserService } from "src/services/auth"
+import { useNavigate } from "react-router"
 
 export const ProfileComponent = () => {
     const [error, setError] = useState('')
@@ -8,6 +9,9 @@ export const ProfileComponent = () => {
     const user = useAuthStore((res) => res.user)
     const token = useAuthStore((res) => res.token)
     const setCurrentUser = useAuthStore((res) => res.setCurrentUser)
+    const clearCurrentUser = useAuthStore((res) => res.clearCurrentUser)
+
+    const navigate = useNavigate()
 
     if (user && token) {
         const [email, setEmail] = useState(user.email)
@@ -22,6 +26,17 @@ export const ProfileComponent = () => {
                 setCurrentUser(token, user)
             } catch (err: any) {
                 setError("Erreur lors de la modification de l'utilisatateur.");
+            }
+        }
+
+        const handleDeleteCurrentUser = async (e: React.FormEvent) => {
+            e.preventDefault()
+            try {
+                await deleteCurrentUserService(token)
+                clearCurrentUser()
+                navigate('/')
+            } catch (err: any) {
+                setError("Erreur lors de la suppréssion de l'utilisatateur.");
             }
         }
 
@@ -80,6 +95,12 @@ export const ProfileComponent = () => {
                             className="w-full bg-emerald-700 text-white py-2 rounded-lg font-semibold hover:bg-emerald-800 transition"
                         >
                             Modifier
+                        </button>
+                        <button
+                            onClick={handleDeleteCurrentUser}
+                            className="w-full bg-red-500 text-white py-2 rounded-lg font-semibold hover:bg-red-600 transition"
+                        >
+                            Supprimer mon compte
                         </button>
                     </form>
                 </div>

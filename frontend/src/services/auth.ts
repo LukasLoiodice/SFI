@@ -95,3 +95,20 @@ export async function editCurrentUserService(token: string, email: string, first
     throw new Error("editCurrentUser error")
   }
 }
+
+export async function deleteCurrentUserService(token: string): Promise<void> {
+  try {
+    await axios.delete(
+      `${backendUrl}/me`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+
+    return
+  } catch (error: any) {
+    throw new Error("deleteCurrentUser error")
+  }
+}
