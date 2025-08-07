@@ -41,3 +41,12 @@ async def update_user(
 ) -> None:
     put_user(db, user_id, req.first_name, req.last_name, req.role)
     return
+
+@router.delete("/{user_id}")
+async def remove_user(
+    _: Annotated[auth_service.TokenData, Depends(get_admin_token)],
+    db: Annotated[Session, Depends(get_db)],
+    user_id: int
+) -> None:
+    delete_user(db, user_id)
+    return
