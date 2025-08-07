@@ -1,4 +1,4 @@
-import type { User } from "src/models/user";
+import type { User } from "src/models/users";
 import { create } from "zustand";
 
 interface AuthState {

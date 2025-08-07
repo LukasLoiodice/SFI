@@ -2,7 +2,7 @@ import { useAuthStore } from "src/stores/auth"
 import React, { useState } from "react"
 import { editCurrentUserService, getCurrentUserService, deleteCurrentUserService } from "src/services/auth"
 import { useNavigate } from "react-router"
-import { RoleToStr } from "src/models/user"
+import { RoleToStr } from "src/models/users"
 
 export const ProfileComponent = () => {
     const [error, setError] = useState('')

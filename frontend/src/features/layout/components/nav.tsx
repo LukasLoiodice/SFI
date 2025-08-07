@@ -1,7 +1,7 @@
 import type { JSX } from 'react'
 import { Link } from 'react-router'
 import logo from 'src/assets/logo.png'
-import { ROLE_ENUM } from 'src/models/user'
+import { ROLE_ENUM } from 'src/models/users'
 import { useAuthStore } from 'src/stores/auth'
 
 const NavContextPannel = (): JSX.Element => {

@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Link } from "react-router"
 import { registerService } from "src/services/auth"
 import { useNavigate } from "react-router"
-import { ROLE_ENUM, type User } from "src/models/user"
+import { ROLE_ENUM, type User } from "src/models/users"
 
 export const RegisterForm = () => {
     const [error, setError] = useState('')
