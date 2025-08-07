@@ -3,6 +3,7 @@ auth:
   JWT_EXP: 15
 
 database:
+  DB_USERNAME: "postgres"
   DB_HOST: "127.0.0.1"
   DB_PORT: 5321
   DB_NAME: "postgres2"
