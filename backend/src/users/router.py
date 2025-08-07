@@ -31,3 +31,13 @@ async def get_all_users(
     return GetAllUsersResponse(
         users=users
     )
+
+@router.put("/{user_id}")
+async def update_user(
+    _: Annotated[auth_service.TokenData, Depends(get_admin_token)],
+    db: Annotated[Session, Depends(get_db)],
+    user_id: int,
+    req: UpdateUserRequest
+) -> None:
+    put_user(db, user_id, req.first_name, req.last_name, req.role)
+    return

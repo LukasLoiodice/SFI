@@ -12,8 +12,16 @@ def get_user(db: Session, user_id: int) -> UserModel:
     db.commit()
     return user
 
-def put_user(db: Session, id: int, email: str, first_name: str, last_name: str) -> None:
-    db.query(UserModel).filter(UserModel.id == id).update({UserModel.email: email, UserModel.first_name: first_name, UserModel.last_name: last_name})
+def put_user(db: Session, id: int, first_name: str, last_name: str, role: str | None = None) -> None:
+    update_data = {
+        UserModel.first_name: first_name,
+        UserModel.last_name: last_name
+    }
+
+    if role:
+        update_data[UserModel.role] = role
+
+    db.query(UserModel).filter(UserModel.id == id).update(update_data)
     db.commit()
     return
 

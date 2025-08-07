@@ -26,6 +26,5 @@ class RegisterResponse(BaseModel):
     user: user_schemas.User
 
 class PutCurrentUserRequest(BaseModel):
-    email: str
     first_name: str
     last_name: str
