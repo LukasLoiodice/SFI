@@ -12,6 +12,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
                 setCurrentUser(userToken, user)
             }).catch((error) => {
                 console.log(error)
+                localStorage.removeItem("token")
             })
         }
     })

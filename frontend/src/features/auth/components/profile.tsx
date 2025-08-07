@@ -64,7 +64,8 @@ export const ProfileComponent = () => {
                             <input
                                 type="email"
                                 required
-                                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                                disabled
+                                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-gray-100"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
