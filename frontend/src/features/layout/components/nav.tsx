@@ -1,10 +1,12 @@
 import type { JSX } from 'react'
 import { Link } from 'react-router'
 import logo from 'src/assets/logo.png'
+import { ROLE_ENUM } from 'src/models/user'
 import { useAuthStore } from 'src/stores/auth'
 
 const NavContextPannel = (): JSX.Element => {
     const isLoggedIn = useAuthStore((state) => state.isLoggedIn)
+    const user = useAuthStore((state) => state.user)
     const clearCurrentUser = useAuthStore((state) => state.clearCurrentUser)
 
     const handleLogout = async () => {
@@ -15,6 +17,13 @@ const NavContextPannel = (): JSX.Element => {
     if (isLoggedIn) {
         return (
             <>
+                {
+                    user?.role == ROLE_ENUM.admin && (
+                        <Link to="/admin" className="hover:text-emerald-300 transition-colors duration-200">
+                            Administration
+                        </Link>
+                    )
+                }
                 <Link to="/profile" className="hover:text-emerald-300 transition-colors duration-200">
                     Mon compte
                 </Link>
