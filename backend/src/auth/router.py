@@ -74,7 +74,8 @@ async def get_current_user(
         id=user_model.id,
         email=user_model.email,
         first_name=user_model.first_name,
-        last_name=user_model.last_name
+        last_name=user_model.last_name,
+        role=user_model.role
     )
 
 @router.put("/me")
