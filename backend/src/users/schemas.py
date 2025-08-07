@@ -9,3 +9,6 @@ class User(BaseModel):
     first_name: str
     last_name: str
     role: Role = Field(default="user")
+
+class GetAllUsersResponse(BaseModel):
+    users: list[User]

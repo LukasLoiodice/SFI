@@ -21,3 +21,8 @@ def delete_user(db: Session, id: int) -> None:
     db.query(UserModel).filter(UserModel.id == id).delete()
     db.commit()
     return
+
+def list_user(db: Session) -> list[UserModel]:
+    users = db.query(UserModel).all()
+    db.commit()
+    return users

@@ -16,11 +16,13 @@ Frontend :
 - react
 - vite
 - tailwind
+- zustand
 
 Backend:
 - fastapi
 - pgsql
 - sqlalchemy
+- alembic
 ```
 
 ## Versions
