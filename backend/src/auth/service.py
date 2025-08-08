@@ -7,6 +7,7 @@ from src.users import models as user_models
 from src.users import schemas as user_schemas
 from src.auth.schemas import *
 from sqlalchemy import select
+from fastapi import HTTPException, status
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -33,18 +34,24 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     return encoded_jwt
 
 def decode_access_token(token: str) -> TokenData:
-    payload = jwt.decode(token, secret_key, algorithms=[config.auth.JWT_ALG])
+    try:
+        payload = jwt.decode(token, secret_key, algorithms=[config.auth.JWT_ALG])
 
-    id = int(payload.get("sub"))
-    role = payload.get("role")
-    expiration_ts = payload.get("exp")
-    expiration = datetime.fromtimestamp(expiration_ts, tz=timezone.utc)
+        id = int(payload.get("sub"))
+        role = payload.get("role")
+        expiration_ts = payload.get("exp")
+        expiration = datetime.fromtimestamp(expiration_ts, tz=timezone.utc)
 
-    return TokenData(
-        user_id=id,
-        user_role=role,
-        expiration=expiration
-    )
+        return TokenData(
+            user_id=id,
+            user_role=role,
+            expiration=expiration
+        )
+    except:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Token invalide ou expiré. Reconnectez-vous"
+        )
 
 
 async def db_authenticate_user(db: AsyncSession, email: str, password: str) -> user_schemas.User | None :
