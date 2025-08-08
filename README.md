@@ -28,8 +28,10 @@ Backend:
 ## Todo
 ``` 
 - token exp
-- refactoriser front
-- changer la navbar
+- refactoriser front (profile, login, register, admin/userID)
+- ajout pieces
+- ajout mangoDB
+- dockeriser pgsql
 ```
 
 ## Versions
