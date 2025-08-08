@@ -25,6 +25,14 @@ Backend:
 - alembic
 ```
 
+## Todo
+``` 
+- token exp
+- async sqlalchemy
+- refactoriser front
+- changer la navbar
+```
+
 ## Versions
 ```
 node: 22.44.1

@@ -3,6 +3,8 @@ import { Navigate } from "react-router";
 import { ROLE_ENUM, type User } from "src/models/users";
 import { listUsersService } from "src/services/users";
 import { useAuthStore } from "src/stores/auth";
+import { Link } from "react-router";
+import { RoleToStr } from "src/models/users";
 
 export const AdminComponent = () => {
     const user = useAuthStore((res) => res.user)
@@ -19,7 +21,7 @@ export const AdminComponent = () => {
         return <Navigate to="/" />;
     }
 
-    useEffect(() => {
+    const loadUsers = () => {
         if (token) {
             listUsersService(token)
                 .then((res) => {
@@ -29,6 +31,10 @@ export const AdminComponent = () => {
                     setLoading(false)
                 })
         }
+    }
+
+    useEffect(() => {
+        loadUsers()
     }, [token])
 
     return (
@@ -55,14 +61,11 @@ export const AdminComponent = () => {
                                     <td className="px-4 py-2">{u.email}</td>
                                     <td className="px-4 py-2">{u.firstName}</td>
                                     <td className="px-4 py-2">{u.lastName}</td>
-                                    <td className="px-4 py-2 capitalize">{u.role}</td>
+                                    <td className="px-4 py-2 capitalize">{RoleToStr(u.role)}</td>
                                     <td>
-                                        <button
-                                            onClick={() => {}}
-                                            className="text-blue-600 hover:underline"
-                                        >
+                                        <Link to={`/admin/${u.id}`}>
                                             Modifier
-                                        </button>
+                                        </Link>
                                     </td>
                                 </tr>
                             ))}
@@ -73,7 +76,8 @@ export const AdminComponent = () => {
                         <p className="mt-4 text-gray-500">Aucun utilisateur trouvé.</p>
                     )}
                 </div>
-            )}
-        </div>
+            )
+            }
+        </div >
     );
 }

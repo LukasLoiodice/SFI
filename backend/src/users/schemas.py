@@ -13,6 +13,9 @@ class User(BaseModel):
 class GetAllUsersResponse(BaseModel):
     users: list[User]
 
+class GetUserResponse(BaseModel):
+    user: User
+
 class UpdateUserRequest(BaseModel):
     first_name: str
     last_name: str

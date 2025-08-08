@@ -32,6 +32,27 @@ async def get_all_users(
         users=users
     )
 
+@router.get('/{user_id}')
+async def get_userr(
+    _: Annotated[auth_service.TokenData, Depends(get_admin_token)],
+    db: Annotated[Session, Depends(get_db)],
+    user_id: int,
+) -> GetUserResponse:
+    db_user = get_user(db, user_id)
+
+    # Convert to schema
+    user = User(
+        id=db_user.id,
+        email=db_user.email,
+        first_name=db_user.first_name,
+        last_name=db_user.last_name,
+        role=db_user.role
+    )
+
+    return GetUserResponse(
+        user=user
+    )
+
 @router.put("/{user_id}")
 async def update_user(
     _: Annotated[auth_service.TokenData, Depends(get_admin_token)],
