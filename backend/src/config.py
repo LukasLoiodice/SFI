@@ -15,6 +15,7 @@ class DatabaseSettings(BaseModel):
     DB_USERNAME: str
     DB_PASSWORD_PATH: str
     DB_NAME: str
+    DB_ECHO: bool
 
 class AdminSettings(BaseModel):
     ADMIN_EMAIL: str

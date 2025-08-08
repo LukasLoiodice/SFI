@@ -5,9 +5,17 @@ from src.users.router import router as users_router
 from src.database import *
 from src.users.models import *
 from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
+
+
+@asynccontextmanager
+async def startup_event(app: FastAPI):
+    await init_admin()
+    yield
+
 
 # Init fastapi
-app = FastAPI()
+app = FastAPI(lifespan=startup_event)
 app.include_router(auth_router)
 app.include_router(users_router)
 app.add_middleware(

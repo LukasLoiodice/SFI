@@ -13,9 +13,9 @@ router = APIRouter(
 @router.get('/')
 async def get_all_users(
     _: Annotated[auth_service.TokenData, Depends(get_admin_token)],
-    db: Annotated[Session, Depends(get_db)],
+    db: Annotated[AsyncSession, Depends(get_db)],
 ) -> GetAllUsersResponse:
-    db_users = list_user(db)
+    db_users = await db_list_user(db)
 
     # Convert to schema
     users: list[User] = []
@@ -35,10 +35,10 @@ async def get_all_users(
 @router.get('/{user_id}')
 async def get_userr(
     _: Annotated[auth_service.TokenData, Depends(get_admin_token)],
-    db: Annotated[Session, Depends(get_db)],
+    db: Annotated[AsyncSession, Depends(get_db)],
     user_id: int,
 ) -> GetUserResponse:
-    db_user = get_user(db, user_id)
+    db_user = await db_get_user(db, user_id)
 
     # Convert to schema
     user = User(
@@ -56,18 +56,18 @@ async def get_userr(
 @router.put("/{user_id}")
 async def update_user(
     _: Annotated[auth_service.TokenData, Depends(get_admin_token)],
-    db: Annotated[Session, Depends(get_db)],
+    db: Annotated[AsyncSession, Depends(get_db)],
     user_id: int,
     req: UpdateUserRequest
 ) -> None:
-    put_user(db, user_id, req.first_name, req.last_name, req.role)
+    await db_put_user(db, user_id, req.first_name, req.last_name, req.role)
     return
 
 @router.delete("/{user_id}")
 async def remove_user(
     _: Annotated[auth_service.TokenData, Depends(get_admin_token)],
-    db: Annotated[Session, Depends(get_db)],
+    db: Annotated[AsyncSession, Depends(get_db)],
     user_id: int
 ) -> None:
-    delete_user(db, user_id)
+    await db_delete_user(db, user_id)
     return

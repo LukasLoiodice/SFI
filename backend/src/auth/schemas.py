@@ -8,7 +8,7 @@ class Token(BaseModel):
     token_type: str
 
 class TokenData(BaseModel):
-    user_id: str
+    user_id: int
     user_role: Role
     expiration: datetime
 

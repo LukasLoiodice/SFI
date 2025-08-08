@@ -21,14 +21,13 @@ Frontend :
 Backend:
 - fastapi
 - pgsql
-- sqlalchemy
+- sqlalchemy (asyncio)
 - alembic
 ```
 
 ## Todo
 ``` 
 - token exp
-- async sqlalchemy
 - refactoriser front
 - changer la navbar
 ```

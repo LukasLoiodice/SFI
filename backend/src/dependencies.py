@@ -1,22 +1,20 @@
-from sqlalchemy.orm import Session
 from src.config import config
-from src.database import sessionLocal
+from src.database import session_manager
 from src.auth.service import decode_access_token
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from typing import Annotated
 from src.auth.schemas import TokenData
+from typing import AsyncIterator
+from sqlalchemy.ext.asyncio import AsyncSession
 
 secret_key: str
 with open(config.auth.JWT_SECRET_PATH) as f:
     secret_key = f.read().strip()
 
-def get_db() -> Session:
-    db = sessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+async def get_db() -> AsyncIterator[AsyncSession]:
+    async with session_manager.session() as session:
+        yield session
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 

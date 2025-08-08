@@ -9,6 +9,7 @@ from src.auth.schemas import *
 from src.dependencies import get_db, get_token
 from src.auth.service import *
 from src.users import service as user_service
+from sqlalchemy.ext.asyncio import AsyncSession
 
 router = APIRouter(
     tags=["auth"],
@@ -16,13 +17,13 @@ router = APIRouter(
 
 @router.post("/login")
 async def login(
-    db: Annotated[get_db, Depends()],
+    db: Annotated[AsyncSession, Depends(get_db)],
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()]
 ) -> Token:
     """
     Login using email and password.
     """
-    user_model = authenticate_user(db, form_data.username, form_data.password)
+    user_model = await db_authenticate_user(db, form_data.username, form_data.password)
     if not user_model:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -36,7 +37,7 @@ async def login(
 
 @router.post('/register')
 async def register(
-    db: Annotated[get_db, Depends()],
+    db: Annotated[AsyncSession, Depends(get_db)],
     req: RegisterRequest
 ) -> RegisterResponse:
     """
@@ -50,7 +51,7 @@ async def register(
         role="user"
     )
 
-    user_model = user_service.create_user(db, user_model)
+    user_model = await user_service.db_create_user(db, user_model)
 
     res = RegisterResponse(
         user=user_schemas.User(
@@ -66,10 +67,9 @@ async def register(
 @router.get("/me")
 async def get_current_user(
     token: Annotated[TokenData, Depends(get_token)],
-    db: Annotated[get_db, Depends()],
+    db: Annotated[AsyncSession, Depends(get_db)],
 ) -> user_schemas.User:
-    user_model = user_service.get_user(db, token.user_id)
-    
+    user_model = await user_service.db_get_user(db, token.user_id)
     return user_schemas.User(
         id=user_model.id,
         email=user_model.email,
@@ -81,16 +81,16 @@ async def get_current_user(
 @router.put("/me")
 async def put_current_user(
     token: Annotated[TokenData, Depends(get_token)],
-    db: Annotated[get_db, Depends()],
+    db: Annotated[AsyncSession, Depends(get_db)],
     req: PutCurrentUserRequest
 ) -> None:
-    user_service.put_user(db, token.user_id, req.first_name, req.last_name)
+    await user_service.db_put_user(db, token.user_id, req.first_name, req.last_name)
     return
 
 @router.delete("/me")
 async def delete_current_user(
     token: Annotated[TokenData, Depends(get_token)],
-    db: Annotated[get_db, Depends()],
+    db: Annotated[AsyncSession, Depends(get_db)],
 ) -> None:
-    user_service.delete_user(db, token.user_id)
+    await user_service.db_delete_user(db, token.user_id)
     return

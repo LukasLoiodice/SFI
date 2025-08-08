@@ -1,36 +1,51 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from src.users.models import *
+from sqlalchemy import select
+from fastapi import HTTPException, status
 
-def create_user(db: Session, user: UserModel) -> UserModel:
+user_not_found_exception = HTTPException(
+    status_code=status.HTTP_404_NOT_FOUND,
+    detail="User not found"
+)
+
+async def db_create_user(db: AsyncSession, user: UserModel) -> UserModel:
     db.add(user)
-    db.commit()
-    db.refresh(user)
+    await db.commit()
+    await db.refresh(user)
     return user
 
-def get_user(db: Session, user_id: int) -> UserModel:
-    user = db.get(UserModel, user_id)
-    db.commit()
+async def db_get_user(db: AsyncSession, user_id: int) -> UserModel:
+    user = await db.get(UserModel, user_id)
+
+    if not user:
+        raise user_not_found_exception
+
     return user
 
-def put_user(db: Session, id: int, first_name: str, last_name: str, role: str | None = None) -> None:
-    update_data = {
-        UserModel.first_name: first_name,
-        UserModel.last_name: last_name
-    }
+async def db_put_user(db: AsyncSession, id: int, first_name: str, last_name: str, role: str | None = None) -> None:
+    user = (await db.scalars(select(UserModel).where(UserModel.id == id))).first()
 
+    if not user:
+        raise user_not_found_exception
+
+    user.first_name = first_name
+    user.last_name = last_name
     if role:
-        update_data[UserModel.role] = role
+        user.role = role
 
-    db.query(UserModel).filter(UserModel.id == id).update(update_data)
-    db.commit()
+    await db.commit()
+
+async def db_delete_user(db: AsyncSession, id: int) -> None:
+    user = (await db.scalars(select(UserModel).where(UserModel.id == id))).first()
+
+    if not user:
+        raise user_not_found_exception
+    
+    await db.delete(user)
+    await db.commit()
+
     return
 
-def delete_user(db: Session, id: int) -> None:
-    db.query(UserModel).filter(UserModel.id == id).delete()
-    db.commit()
-    return
-
-def list_user(db: Session) -> list[UserModel]:
-    users = db.query(UserModel).all()
-    db.commit()
+async def db_list_user(db: AsyncSession) -> list[UserModel]:
+    users = (await db.scalars(select(UserModel))).all()
     return users
