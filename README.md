@@ -27,13 +27,12 @@ Backend:
 
 ## Todo
 ``` 
-- token exp
+- pb front rechargement de page sur la page home qui renvoie vers login
 - refactoriser front :
     - table
     - modal
-- ajout pieces
+- ajout items
 - ajout mangoDB
-- dockeriser pgsql
 ```
 
 ## Versions
