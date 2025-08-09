@@ -44,3 +44,16 @@ async def get_admin_token(
         raise admin_permission_exception
     
     return data
+
+async def get_operator_token(
+        data: Annotated[TokenData, Depends(get_token)]
+) -> TokenData:
+    operator_permission_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Must be at least operator to call this API"
+    )
+
+    if data.user_role != "admin" and data.user_role != "operator":
+        raise operator_permission_exception
+    
+    return data

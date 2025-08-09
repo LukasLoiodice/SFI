@@ -33,7 +33,7 @@ async def get_all_users(
     )
 
 @router.get('/{user_id}')
-async def get_userr(
+async def get_user(
     _: Annotated[auth_service.TokenData, Depends(get_admin_token)],
     db: Annotated[AsyncSession, Depends(get_db)],
     user_id: int,
