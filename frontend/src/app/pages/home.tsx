@@ -1,6 +1,8 @@
+import { HomeComponent } from "src/features/home/components/home"
+
 function Home() {
     return (
-        <p>Home</p>
+        <HomeComponent />
     )
 }
 

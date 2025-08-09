@@ -55,7 +55,7 @@ const NavContextPannel = (props: { user: User | null }) => {
     if (user) {
         return (
             <>
-                <Link to={"/"}>
+                <Link to={"/"} className="hover:text-emerald-300 transition-colors duration-200">
                     Accueil
                 </Link>
                 {
