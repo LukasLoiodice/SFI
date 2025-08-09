@@ -28,7 +28,9 @@ Backend:
 ## Todo
 ``` 
 - token exp
-- refactoriser front (profile, login, register, admin/userID)
+- refactoriser front :
+    - table
+    - modal
 - ajout pieces
 - ajout mangoDB
 - dockeriser pgsql
