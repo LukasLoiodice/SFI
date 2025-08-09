@@ -4,8 +4,9 @@ import { deleteUserService, getUserService } from "src/services/users";
 import { RoleToStr } from "src/models/users";
 import { updateUserService } from "src/services/users";
 import { useNavigate } from "react-router";
+import { FormComponent } from "src/components/form";
 
-export const AdminUserIDComponent = (props: {userID: string | undefined}) => {
+export const AdminUserIDComponent = (props: { userID: string | undefined }) => {
     const userID = props.userID
 
     const token = useAuthStore((res) => res.token)
@@ -67,68 +68,47 @@ export const AdminUserIDComponent = (props: {userID: string | undefined}) => {
                     </div>
                 )}
 
-                <form onSubmit={handleEditUser} className="space-y-4">
-                    <div>
-                        <label className="block text-gray-700 font-medium mb-1">
-                            Adresse email
-                        </label>
-                        <input
-                            type="email"
-                            required
-                            disabled
-                            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-gray-100"
-                            value={email}
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-gray-700 font-medium mb-1">
-                            Prénom
-                        </label>
-                        <input
-                            type="text"
-                            required
-                            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                            value={firstName}
-                            onChange={(e) => setFirstName(e.target.value)}
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-gray-700 font-medium mb-1">
-                            Nom
-                        </label>
-                        <input
-                            type="text"
-                            required
-                            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                            value={lastName}
-                            onChange={(e) => setLastName(e.target.value)}
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-gray-700 font-medium mb-1">
-                            Role
-                        </label>
-                        <input
-                            type="text"
-                            required
-                            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                            value={role}
-                            onChange={(e) => setRole(e.target.value)}
-                        />
-                    </div>
-                    <button
-                        type="submit"
-                        className="w-full bg-emerald-700 text-white py-2 rounded-lg font-semibold hover:bg-emerald-800 transition"
-                    >
-                        Modifier
-                    </button>
-                    <button
-                        onClick={handleDeleteUser}
-                        className="w-full bg-red-500 text-white py-2 rounded-lg font-semibold hover:bg-red-600 transition"
-                    >
-                        Supprimer
-                    </button>
-                </form>
+                <FormComponent handler={handleEditUser} buttonName="Modifier" inputs={[
+                    {
+                        value: email,
+                        setValue: setEmail,
+                        type: "email",
+                        text: "Adresse email",
+                        required: false,
+                        disabled: true
+                    },
+                    {
+                        value: firstName,
+                        setValue: setFirstName,
+                        type: "text",
+                        text: "Prénom",
+                        required: true,
+                        disabled: false
+                    },
+                    {
+                        value: lastName,
+                        setValue: setLastName,
+                        type: "text",
+                        text: "Nom",
+                        required: true,
+                        disabled: false
+                    },
+                    {
+                        value: role,
+                        setValue: setRole,
+                        type: "text",
+                        text: "Role",
+                        required: true,
+                        disabled: false
+                    }
+                ]} />
+
+                <button
+                    onClick={handleDeleteUser}
+                    className="w-full bg-red-500 text-white py-2 rounded-lg font-semibold hover:bg-red-600 transition mt-3"
+                >
+                    Supprimer
+                </button>
             </div>
         </div>
     )

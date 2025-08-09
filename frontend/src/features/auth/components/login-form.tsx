@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { useNavigate, Link } from "react-router";
 import { getCurrentUserService, loginService } from "src/services/auth";
 import { useAuthStore } from "src/stores/auth";
+import { FormComponent } from "src/components/form";
 
 export const LoginForm = () => {
 	const [email, setEmail] = useState('')
@@ -37,40 +38,24 @@ export const LoginForm = () => {
 					</div>
 				)}
 
-				<form onSubmit={handleLogin} className="space-y-4">
-					<div>
-						<label className="block text-gray-700 font-medium mb-1">
-							Adresse email
-						</label>
-						<input
-							type="email"
-							required
-							className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-							value={email}
-							onChange={(e) => setEmail(e.target.value)}
-						/>
-					</div>
-
-					<div>
-						<label className="block text-gray-700 font-medium mb-1">
-							Mot de passe
-						</label>
-						<input
-							type="password"
-							required
-							className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-							value={password}
-							onChange={(e) => setPassword(e.target.value)}
-						/>
-					</div>
-
-					<button
-						type="submit"
-						className="w-full bg-emerald-700 text-white py-2 rounded-lg font-semibold hover:bg-emerald-800 transition"
-					>
-						Se connecter
-					</button>
-				</form>
+				<FormComponent handler={handleLogin} buttonName="Se connecter" inputs={[
+					{
+						value: email,
+						setValue: setEmail,
+						type: "email",
+						text: "Adresse email",
+						required: true,
+						disabled: false
+					},
+					{
+						value: password,
+						setValue: setPassword,
+						type: "password",
+						text: "Mot de passe",
+						required: true,
+						disabled: false
+					}
+				]} />
 
 				<p className="text-center text-sm text-gray-600 mt-4">
 					Pas encore inscrit ?{" "}
