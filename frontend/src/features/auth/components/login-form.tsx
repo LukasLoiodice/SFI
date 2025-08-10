@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router";
 import { getCurrentUserService, loginService } from "src/services/auth";
 import { useAuthStore } from "src/stores/auth";
 import { FormComponent } from "src/components/form";
+import { ModalComponent } from "src/components/modal";
 
 export const LoginForm = () => {
 	const [email, setEmail] = useState('')
@@ -27,11 +28,7 @@ export const LoginForm = () => {
 
 	return (
 		<div className="min-h-screen flex items-center justify-center px-4">
-			<div className="bg-white shadow-md rounded-2xl p-8 w-full max-w-md">
-				<h1 className="text-2xl font-bold text-center text-emerald-700 mb-6">
-					Connexion
-				</h1>
-
+			<ModalComponent title="Connexion" isClosable={false} >
 				{error && (
 					<div className="bg-red-100 text-red-700 p-3 mb-4 rounded-md text-sm">
 						{error}
@@ -63,7 +60,7 @@ export const LoginForm = () => {
 						Créer un compte
 					</Link>
 				</p>
-			</div>
+			</ModalComponent>
 		</div>
 	)
 }

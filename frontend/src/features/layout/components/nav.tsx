@@ -1,7 +1,7 @@
 import type { JSX } from 'react'
 import { Link } from 'react-router'
-import logo_icon from 'src/assets/logo.png'
-import user_icon from 'src/assets/user.png'
+import logoIcon from 'src/assets/logo.png'
+import userIcon from 'src/assets/user.png'
 import logout_icon from 'src/assets/logout.png'
 import { ROLE_ENUM } from 'src/models/users'
 import { useAuthStore } from 'src/stores/auth'
@@ -21,7 +21,7 @@ const NavAuthPannel = (props: { user: User | null }): JSX.Element => {
         return (
             <>
                 <Link to="/profile" className="hover:text-emerald-300 transition-colors duration-200 flex">
-                    <img src={user_icon} width="30" alt="user" className='mx-3' />
+                    <img src={userIcon} width="30" alt="user" className='mx-3' />
                     {user?.firstName} {user?.lastName}
                 </Link>
                 <Link to="/" onClick={handleLogout}>
@@ -78,7 +78,7 @@ export const NavLayout = () => {
             <div className="mx-auto flex items-center justify-between">
                 <div className='flex space-x-6'>
                     <Link to="/" className="text-2xl font-bold tracking-wide">
-                        <img src={logo_icon} width="20" alt="logo" />
+                        <img src={logoIcon} width="20" alt="logo" />
                     </Link>
 
                     <NavContextPannel user={user}/>
