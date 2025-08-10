@@ -27,10 +27,6 @@ Backend:
 
 ## Todo
 ``` 
-- pb front rechargement de page sur la page home qui renvoie vers login
-- refactoriser front :
-    - table
-    - modal
 - ajout items
 - ajout mangoDB
 ```
