@@ -29,7 +29,7 @@ export const listUsersService = async (token: string): Promise<Array<User>> => {
 
         return users
     } catch (error: any) {
-        throw new Error("listUsersService error")
+        throw new Error(error.response.data.detail)
     }
 }
 
@@ -54,8 +54,8 @@ export const getUserService = async (token: string, userID: number): Promise<Use
         }
 
         return user
-    } catch (error) {
-        throw new Error("deleteUserService error")
+    } catch (error: any) {
+        throw new Error(error.response.data.detail)
     }
 }
 
@@ -71,8 +71,8 @@ export const deleteUserService = async (token: string, userID: number): Promise<
         )
 
         return
-    } catch (error) {
-        throw new Error("deleteUserService error")
+    } catch (error: any) {
+        throw new Error(error.response.data.detail)
     }
 }
 
@@ -93,7 +93,7 @@ export const updateUserService = async (token: string, id: number, firstName: st
         )
 
         return
-    } catch (error) {
-        throw new Error("updateRoleService error")
+    } catch (error: any) {
+        throw new Error(error.response.data.detail)
     }
 }

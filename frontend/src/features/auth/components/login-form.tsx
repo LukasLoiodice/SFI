@@ -22,7 +22,7 @@ export const LoginForm = () => {
 			setCurrentUser(token, user)
 			navigate("/");
 		} catch (err: any) {
-			setError("Identifiants incorrects.");
+			setError(err.message);
 		}
 	}
 

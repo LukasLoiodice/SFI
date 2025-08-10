@@ -28,7 +28,7 @@ export const RegisterForm = () => {
             await registerService(user, password)
             navigate("/login")
         } catch (err: any) {
-            setError("Erreur dans la création du compte.");
+            setError(err.message);
         }
     }
 

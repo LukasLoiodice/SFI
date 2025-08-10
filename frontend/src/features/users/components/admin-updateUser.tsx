@@ -25,8 +25,8 @@ export const AdminUpdateUser = (props: { user: User, handler: () => void }) => {
                 await updateUserService(token, user.id, firstName, lastName, role)
                 handler()
             }
-        } catch (error) {
-            setError("Erreur lors de la modification de l'utilisateur.")
+        } catch (err: any) {
+            setError(err.message);
         }
     }
 
@@ -38,8 +38,8 @@ export const AdminUpdateUser = (props: { user: User, handler: () => void }) => {
                 await deleteUserService(token, user.id)
                 handler()
             }
-        } catch (error) {
-            setError("Erreur lors de la modification de l'utilisateur.")
+        } catch (err: any) {
+            setError(err.message);
         }
     }
 

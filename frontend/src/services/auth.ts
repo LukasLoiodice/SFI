@@ -21,11 +21,7 @@ export async function loginService(email: string, password: string): Promise<str
 
     return response.data.access_token
   } catch (error: any) {
-    if (error.response) {
-      throw new Error("Identifiants invalides");
-    } else {
-      throw new Error("Erreur réseau");
-    }
+    throw new Error(error.response.data.detail)
   }
 }
 
@@ -43,7 +39,7 @@ export async function registerService(user: User, password: string): Promise<voi
 
     return
   } catch (error: any) {
-    throw new Error("register error")
+    throw new Error(error.response.data.detail)
   }
 }
 
@@ -71,7 +67,7 @@ export async function getCurrentUserService(token: string): Promise<User> {
 
     return user
   } catch (error: any) {
-    throw new Error("getCurrentUser error")
+    throw new Error(error.response.data.detail)
   }
 }
 
@@ -93,7 +89,7 @@ export async function editCurrentUserService(token: string, email: string, first
 
     return
   } catch (error: any) {
-    throw new Error("editCurrentUser error")
+    throw new Error(error.response.data.detail)
   }
 }
 
@@ -110,6 +106,6 @@ export async function deleteCurrentUserService(token: string): Promise<void> {
 
     return
   } catch (error: any) {
-    throw new Error("deleteCurrentUser error")
+    throw new Error(error.response.data.detail)
   }
 }

@@ -32,7 +32,7 @@ export const ProfileComponent = () => {
             const user = await getCurrentUserService(token)
             setCurrentUser(token, user)
         } catch (err: any) {
-            setError("Erreur lors de la modification de l'utilisatateur.");
+            setError(err.message);
         }
     }
 
@@ -44,7 +44,7 @@ export const ProfileComponent = () => {
             localStorage.removeItem("token")
             navigate('/')
         } catch (err: any) {
-            setError("Erreur lors de la suppréssion de l'utilisatateur.");
+            setError(err.message);
         }
     }
 
