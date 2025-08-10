@@ -31,6 +31,7 @@ Backend:
 - refactoriser front :
     - table
     - modal
+- ajouter vrais erreurs front
 - ajout items
 - ajout mangoDB
 ```

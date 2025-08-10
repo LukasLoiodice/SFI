@@ -4,6 +4,7 @@ import { registerService } from "src/services/auth"
 import { useNavigate } from "react-router"
 import { ROLE_ENUM, type User } from "src/models/users"
 import { FormComponent } from "src/components/form"
+import { ModalComponent } from "src/components/modal"
 
 export const RegisterForm = () => {
     const [error, setError] = useState('')
@@ -32,12 +33,8 @@ export const RegisterForm = () => {
     }
 
     return (
-        <div className="min-h-screen flex justify-center items-center px-4">
-            <div className="bg-white shadow-md rounded-2xl p-8 w-full max-w-md">
-                <h1 className="text-2xl text-center text-emerald-700 font-bold mb-6">
-                    Créer un compte
-                </h1>
-
+        <div className="min-h-screen flex justify-center items-center">
+            <ModalComponent title="Créer un compte" isClosable={false}>
                 {error && (
                     <div className="bg-red-100 text-red-700 p-3 mb-4 rounded-md text-sm">
                         {error}
@@ -86,7 +83,7 @@ export const RegisterForm = () => {
                         Se connecter
                     </Link>
                 </p>
-            </div>
+            </ModalComponent>
         </div>
     )
 }

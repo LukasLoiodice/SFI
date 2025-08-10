@@ -27,7 +27,7 @@ export const LoginForm = () => {
 	}
 
 	return (
-		<div className="min-h-screen flex items-center justify-center px-4">
+		<div className="min-h-screen flex items-center justify-center">
 			<ModalComponent title="Connexion" isClosable={false} >
 				{error && (
 					<div className="bg-red-100 text-red-700 p-3 mb-4 rounded-md text-sm">

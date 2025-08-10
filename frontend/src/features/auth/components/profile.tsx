@@ -4,6 +4,7 @@ import { editCurrentUserService, getCurrentUserService, deleteCurrentUserService
 import { Navigate, useNavigate } from "react-router"
 import { RoleToStr } from "src/models/users"
 import { FormComponent } from "src/components/form"
+import { ModalComponent } from "src/components/modal"
 
 export const ProfileComponent = () => {
     const [error, setError] = useState('')
@@ -48,12 +49,8 @@ export const ProfileComponent = () => {
     }
 
     return (
-        <div className="min-h-screen flex justify-center items-center px-4">
-            <div className="bg-white shadow-md rounded-2xl p-8 w-full max-w-md">
-                <h1 className="text-2xl text-center text-emerald-700 font-bold mb-6">
-                    {user.firstName} {user.lastName}
-                </h1>
-
+        <div className="min-h-screen flex justify-center items-center">
+            <ModalComponent title={`${user.firstName} ${user.lastName}`} isClosable={false}>
                 {error && (
                     <div className="bg-red-100 text-red-700 p-3 mb-4 rounded-md text-sm">
                         {error}
@@ -100,7 +97,7 @@ export const ProfileComponent = () => {
                 >
                     Supprimer mon compte
                 </button>
-            </div>
-        </div>
+            </ModalComponent>
+        </div >
     )
 }
