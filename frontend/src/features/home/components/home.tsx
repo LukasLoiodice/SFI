@@ -1,6 +1,7 @@
 import { Link, Navigate } from 'react-router';
 import { ROLE_ENUM, RoleToStr } from 'src/models/users';
 import { useAuthStore } from 'src/stores/auth';
+import { TableComponent } from 'src/components/table';
 
 const actionsByRole = {
     [ROLE_ENUM.operator]: [
@@ -16,6 +17,41 @@ const actionsByRole = {
         { label: 'Voir tous les produits', to: '/all-products', icon: '📦' },
     ],
 };
+
+type Item = {
+    id: number;
+    product: string;
+    status: string;
+};
+
+const columns = [
+    {
+        key: "id",
+        header: "ID",
+        render: (value: number) => (
+            <span className="font-mono">#{value}</span>
+        ),
+    },
+    {
+        key: "product",
+        header: "Produit",
+    },
+    {
+        key: "status",
+        header: "Statut",
+        render: (value: string) => (
+            <span
+                className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${value === "Validé"
+                    ? "bg-green-100 text-green-800"
+                    : "bg-yellow-100 text-yellow-800"
+                    }`}
+            >
+                {value}
+            </span>
+        ),
+    },
+];
+
 
 export const HomeComponent = () => {
     const token = useAuthStore((state) => state.token)
@@ -34,7 +70,7 @@ export const HomeComponent = () => {
         { id: 1008, product: 'Sonde température', toInspect: false, status: 'Validé' },
     ];
 
-    const lastItems =
+    const lastItems: Item[] =
         user.role === ROLE_ENUM.inspector
             ? items.filter((i) => i.toInspect).slice(0, 5)
             : items.slice(0, 5);
@@ -86,45 +122,11 @@ export const HomeComponent = () => {
                 {lastItems.length === 0 ? (
                     <p className="text-gray-500 italic">Aucun item à afficher.</p>
                 ) : (
-                    <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
-                        <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
-                                <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        ID
-                                    </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Produit
-                                    </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Statut
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
-                                {lastItems.map((item) => (
-                                    <tr key={item.id}>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-mono">
-                                            #{item.id}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                            {item.product}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm">
-                                            <span
-                                                className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${item.status === 'Validé'
-                                                    ? 'bg-green-100 text-green-800'
-                                                    : 'bg-yellow-100 text-yellow-800'
-                                                    }`}
-                                            >
-                                                {item.status}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                    <TableComponent
+                        columns={columns}
+                        data={lastItems}
+                        rowKey={(row) => row.id} 
+                    />
                 )}
             </section>
         </div>

@@ -5,6 +5,41 @@ import { listUsersService } from "src/services/users";
 import { useAuthStore } from "src/stores/auth";
 import { Link } from "react-router";
 import { RoleToStr } from "src/models/users";
+import { TableComponent } from "src/components/table";
+
+const columns = [
+    {
+        key: "email",
+        header: "Email",
+    },
+    {
+        key: "firstName",
+        header: "First name",
+    },
+    {
+        key: "lastName",
+        header: "Last name",
+    },
+    {
+        key: "role",
+        header: "Rôle",
+        render: (_: string, row: User) => (
+            <span className="capitalize">{RoleToStr(row.role)}</span>
+        ),
+    },
+    {
+        key: "actions",
+        header: "",
+        render: (_: any, row: User) => (
+            <Link
+                to={`/admin/${row.id}`}
+                className="text-emerald-700 hover:underline"
+            >
+                Modifier
+            </Link>
+        ),
+    },
+];
 
 export const AdminComponent = () => {
     const user = useAuthStore((res) => res.user)
@@ -44,38 +79,11 @@ export const AdminComponent = () => {
             {loading ? (
                 <p>Chargement...</p>
             ) : (
-                <div className="overflow-x-auto">
-                    <table className="min-w-full table-auto border border-emerald-700">
-                        <thead className="bg-emerald-700 text-white">
-                            <tr>
-                                <th className="px-4 py-2 text-left">Email</th>
-                                <th className="px-4 py-2 text-left">First name</th>
-                                <th className="px-4 py-2 text-left">Last name</th>
-                                <th className="px-4 py-2 text-left">Rôle</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {users.map((u) => (
-                                <tr key={u.id} className="border-t">
-                                    <td className="px-4 py-2">{u.email}</td>
-                                    <td className="px-4 py-2">{u.firstName}</td>
-                                    <td className="px-4 py-2">{u.lastName}</td>
-                                    <td className="px-4 py-2 capitalize">{RoleToStr(u.role)}</td>
-                                    <td>
-                                        <Link to={`/admin/${u.id}`}>
-                                            Modifier
-                                        </Link>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-
-                    {users.length === 0 && (
-                        <p className="mt-4 text-gray-500">Aucun utilisateur trouvé.</p>
-                    )}
-                </div>
+                <TableComponent
+                    columns={columns}
+                    data={users}
+                    rowKey={(u) => u.id}
+                />
             )
             }
         </div >
