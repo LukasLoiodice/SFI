@@ -17,6 +17,13 @@ class DatabaseSettings(BaseModel):
     DB_NAME: str
     DB_ECHO: bool
 
+class MongoSettings(BaseModel):
+    MG_USERNAME: str
+    MG_PASSWORD_PATH: str
+    MG_HOST: str
+    MG_PORT: int
+    MG_DBNAME: str
+
 class AdminSettings(BaseModel):
     ADMIN_EMAIL: str
     ADMIN_FIRST_NAME: str
@@ -26,6 +33,7 @@ class AdminSettings(BaseModel):
 class AppConfig(BaseSettings):
     auth: AuthSettings
     database: DatabaseSettings
+    mongo: MongoSettings
     admin: AdminSettings
     model_config = SettingsConfigDict(
         yaml_file=f'{BASE_DIR}/config/config.yml',

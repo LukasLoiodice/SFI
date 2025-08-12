@@ -13,7 +13,7 @@ https://github.com/zhanymkanov/fastapi-best-practices
 ## Stack
 ```
 Frontend :
-- react
+- react (typescript)
 - vite
 - tailwind
 - zustand
@@ -23,6 +23,7 @@ Backend:
 - pgsql
 - sqlalchemy (asyncio)
 - alembic
+- mangodb (async)
 ```
 
 ## Todo

@@ -9,6 +9,12 @@ database:
   DB_NAME: "postgres"
   DB_ECHO: true
 
+mongo:
+  MG_USERNAME: "mongo"
+  MG_HOST: "127.0.0.1"
+  MG_PORT: 27017
+  MG_DBNAME: "mongo"
+
 admin:
   ADMIN_EMAIL: "admin@example.com" 
   ADMIN_FIRST_NAME: "admin"

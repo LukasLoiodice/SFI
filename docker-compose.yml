@@ -10,6 +10,18 @@ services:
       - 5321:5432
     volumes:
       - db-data:/var/lib/postgresql/data:cached
+  mangodb:
+    image: mongodb/mongodb-community-server:latest
+    ports:
+      - "27017:27017"
+    environment:
+      MONGODB_INITDB_ROOT_USERNAME: mongo
+      MONGODB_INITDB_ROOT_PASSWORD: mongo
+      MONGO_INITDB_DATABASE: mongo
+    volumes:
+      - mango-data:/var/lib/mangodb/data:cached
+
 
 volumes:
   db-data:
+  mango-data:
