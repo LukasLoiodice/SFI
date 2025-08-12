@@ -23,7 +23,7 @@ Backend:
 - pgsql
 - sqlalchemy (asyncio)
 - alembic
-- mangodb (async)
+- mongodb (async)
 ```
 
 ## Todo
