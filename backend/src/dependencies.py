@@ -7,6 +7,8 @@ from typing import Annotated
 from src.auth.schemas import TokenData
 from typing import AsyncIterator
 from sqlalchemy.ext.asyncio import AsyncSession
+from mongo import mongo_manager
+from pymongo import AsyncMongoClient
 
 secret_key: str
 with open(config.auth.JWT_SECRET_PATH) as f:
@@ -15,6 +17,9 @@ with open(config.auth.JWT_SECRET_PATH) as f:
 async def get_db() -> AsyncIterator[AsyncSession]:
     async with session_manager.session() as session:
         yield session
+
+async def get_mongo() -> AsyncMongoClient:
+    return mongo_manager
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 

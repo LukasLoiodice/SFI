@@ -7,14 +7,16 @@ from src.database import *
 from src.users.models import *
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
-from src.mongo import test
+from src.mongo import *
 
 @asynccontextmanager
 async def startup_event(app: FastAPI):
     await init_admin()
-    await test()
-    yield
-
+    try:
+        yield
+    finally:
+        await mongo_manager.close()
+        await session_manager.close()
 
 # Init fastapi
 app = FastAPI(lifespan=startup_event)
