@@ -7,7 +7,7 @@ from typing import Annotated
 from src.auth.schemas import TokenData
 from typing import AsyncIterator
 from sqlalchemy.ext.asyncio import AsyncSession
-from mongo import mongo_manager
+from src.mongo import mongo_manager
 from pymongo import AsyncMongoClient
 
 secret_key: str

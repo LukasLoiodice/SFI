@@ -5,6 +5,7 @@ import Home from "src/app/pages/home";
 import Register from "src/app/pages/register";
 import Profile from "src/app/pages/profile"
 import Admin from "src/app/pages/admin";
+import Product from "src/app/pages/product";
 
 export const router = createBrowserRouter([
     {
@@ -30,6 +31,10 @@ export const router = createBrowserRouter([
             {
                 path: "admin",
                 Component: Admin
+            },
+            {
+                path: "products",
+                Component: Product
             }
         ]
     }

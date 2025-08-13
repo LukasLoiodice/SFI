@@ -28,6 +28,7 @@ Backend:
 
 ## Todo
 ``` 
+- sécu front produits
 - ajout items
 - ajout mangoDB
 ```

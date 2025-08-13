@@ -28,7 +28,7 @@ async def add_product(
     product = Product(
         id=db_product.id,
         name=db_product.name,
-        decription=db_product.description,
+        description=db_product.description,
         photo_uri=db_product.photo_uri
     )
 
@@ -49,7 +49,7 @@ async def list_products(
         products.append(Product(
             id=db_product.id,
             name=db_product.name,
-            decription=db_product.description,
+            description=db_product.description,
             photo_uri=db_product.photo_uri
         ))
     
@@ -57,7 +57,7 @@ async def list_products(
         products=products
     )
 
-@router.get('/{:product_id}')
+@router.get('/{product_id}')
 async def get_product(
     _: Annotated[auth_service.TokenData, Depends(get_token)],
     db: Annotated[AsyncSession, Depends(get_db)],
@@ -69,7 +69,7 @@ async def get_product(
     product = Product(
         id=db_product.id,
         name=db_product.name,
-        decription=db_product.description,
+        description=db_product.description,
         photo_uri=db_product.photo_uri
     )
 
@@ -77,7 +77,7 @@ async def get_product(
         product=product
     )
 
-@router.put('/{:product_id}')
+@router.put('/{product_id}')
 async def edit_product(
     _: Annotated[auth_service.TokenData, Depends(get_operator_token)],
     db: Annotated[AsyncSession, Depends(get_db)],
@@ -88,7 +88,7 @@ async def edit_product(
     await db_put_product(db, product_id, req.name, req.description, req.photo_uri)
     return
 
-@router.delete('/{:product_id}')
+@router.delete('/{product_id}')
 async def delete_product(
     _: Annotated[auth_service.TokenData, Depends(get_operator_token)],
     db: Annotated[AsyncSession, Depends(get_db)],

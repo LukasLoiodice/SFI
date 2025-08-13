@@ -59,12 +59,15 @@ const NavContextPannel = (props: { user: User | null }) => {
                     Accueil
                 </Link>
                 {
-                    user?.role == ROLE_ENUM.admin && (
+                    user.role == ROLE_ENUM.admin && (
                         <Link to="/admin" className="hover:text-emerald-300 transition-colors duration-200">
                             Administration
                         </Link>
                     )
                 }
+                <Link to="/products">
+                    Produits
+                </Link>
             </>
         )
     }
