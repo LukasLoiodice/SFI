@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react"
 import { ModalComponent } from "src/components/modal"
 import { TableComponent } from "src/components/table"
-import type { Product } from "src/models/products"
-import { listProductsService } from "src/services/products"
+import type { Product } from "src/features/products/model"
+import { listProductsService } from "src/features/products/service"
 import { useAuthStore } from "src/stores/auth"
 import { ProductForm } from "./product-form"
 import type { ProductFormAction } from "./product-form"
-import { ROLE_ENUM } from "src/models/users"
+import { ROLE_ENUM } from "src/features/users/model"
 
 export const ProductsPage = () => {
     const token = useAuthStore((res) => res.token)

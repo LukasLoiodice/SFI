@@ -1,5 +1,5 @@
 import { Link, Navigate } from 'react-router';
-import { ROLE_ENUM, RoleToStr } from 'src/models/users';
+import { ROLE_ENUM, RoleToStr } from 'src/features/users/model';
 import { useAuthStore } from 'src/stores/auth';
 import { TableComponent } from 'src/components/table';
 

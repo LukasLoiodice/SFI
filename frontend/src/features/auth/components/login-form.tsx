@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useNavigate, Link } from "react-router";
-import { getCurrentUserService, loginService } from "src/services/auth";
+import { getCurrentUserService, loginService } from "src/features/auth/service";
 import { useAuthStore } from "src/stores/auth";
 import { FormComponent } from "src/components/form";
 import { ModalComponent } from "src/components/modal";

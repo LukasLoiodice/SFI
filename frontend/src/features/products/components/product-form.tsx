@@ -1,8 +1,8 @@
 import { useAuthStore } from "src/stores/auth";
 import React, { useState } from "react";
 import { FormComponent } from "src/components/form";
-import type { Product } from "src/models/products";
-import { addProductService, deleteProductService, editProductService } from "src/services/products";
+import type { Product } from "src/features/products/model";
+import { addProductService, deleteProductService, editProductService } from "src/features/products/service";
 
 export type ProductFormAction = 'create' | 'edit'
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { backendUrl } from "src/consts/env";
-import type { User } from "src/models/users";
-import { StrToRole } from "src/models/users";
+import type { User } from "src/features/users/model";
+import { StrToRole } from "src/features/users/model";
 
 export const listUsersService = async (token: string): Promise<Array<User>> => {
     try {

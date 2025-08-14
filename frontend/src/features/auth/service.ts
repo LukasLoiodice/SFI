@@ -1,6 +1,6 @@
 import axios from "axios";
 import { backendUrl } from "src/consts/env";
-import { StrToRole, type User } from "src/models/users";
+import { StrToRole, type User } from "src/features/users/model";
 
 
 

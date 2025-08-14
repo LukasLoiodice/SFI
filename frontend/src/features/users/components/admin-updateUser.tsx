@@ -1,10 +1,10 @@
 import { useAuthStore } from "src/stores/auth";
 import React, { useState } from "react";
-import { deleteUserService } from "src/services/users";
-import { RoleToStr } from "src/models/users";
-import { updateUserService } from "src/services/users";
+import { deleteUserService } from "src/features/users/service";
+import { RoleToStr } from "src/features/users/model";
+import { updateUserService } from "src/features/users/service";
 import { FormComponent } from "src/components/form";
-import type { User } from "src/models/users";
+import type { User } from "src/features/users/model";
 
 export const AdminUpdateUser = (props: { user: User, handler: () => void }) => {
     const user = props.user

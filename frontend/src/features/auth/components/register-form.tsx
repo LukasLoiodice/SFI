@@ -1,8 +1,8 @@
 import { useState } from "react"
 import { Link } from "react-router"
-import { registerService } from "src/services/auth"
+import { registerService } from "src/features/auth/service"
 import { useNavigate } from "react-router"
-import { ROLE_ENUM, type User } from "src/models/users"
+import { ROLE_ENUM, type User } from "src/features/users/model"
 import { FormComponent } from "src/components/form"
 import { ModalComponent } from "src/components/modal"
 

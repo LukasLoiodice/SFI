@@ -1,6 +1,6 @@
 import axios from "axios";
 import { backendUrl } from "src/consts/env";
-import { BackToProduct, type Product } from "src/models/products";
+import { BackToProduct, type Product } from "src/features/products/model";
 
 export const listProductsService = async (token: string): Promise<Array<Product>> => {
     try {

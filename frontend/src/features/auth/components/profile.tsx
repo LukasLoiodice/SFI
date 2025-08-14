@@ -1,8 +1,8 @@
 import { useAuthStore } from "src/stores/auth"
 import React, { useState } from "react"
-import { editCurrentUserService, getCurrentUserService, deleteCurrentUserService } from "src/services/auth"
+import { editCurrentUserService, getCurrentUserService, deleteCurrentUserService } from "src/features/auth/service"
 import { Navigate, useNavigate } from "react-router"
-import { RoleToStr } from "src/models/users"
+import { RoleToStr } from "src/features/users/model"
 import { FormComponent } from "src/components/form"
 import { ModalComponent } from "src/components/modal"
 

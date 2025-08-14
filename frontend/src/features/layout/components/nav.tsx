@@ -3,9 +3,9 @@ import { Link } from 'react-router'
 import logoIcon from 'src/assets/logo.png'
 import userIcon from 'src/assets/user.png'
 import logout_icon from 'src/assets/logout.png'
-import { ROLE_ENUM } from 'src/models/users'
+import { ROLE_ENUM } from 'src/features/users/model'
 import { useAuthStore } from 'src/stores/auth'
-import type { User } from 'src/models/users'
+import type { User } from 'src/features/users/model'
 
 const NavAuthPannel = (props: { user: User | null }): JSX.Element => {
     const isLoggedIn = useAuthStore((state) => state.isLoggedIn)

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router";
-import { ROLE_ENUM, type User } from "src/models/users";
-import { listUsersService } from "src/services/users";
+import { ROLE_ENUM, type User } from "src/features/users/model";
+import { listUsersService } from "src/features/users/service";
 import { useAuthStore } from "src/stores/auth";
 import { AdminUpdateUser } from "./admin-updateUser";
-import { RoleToStr } from "src/models/users";
+import { RoleToStr } from "src/features/users/model";
 import { TableComponent } from "src/components/table";
 import { ModalComponent } from "src/components/modal";
 
