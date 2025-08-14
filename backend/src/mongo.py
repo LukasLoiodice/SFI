@@ -23,20 +23,20 @@ mongo_manager = MongoManager(config.mongo.MG_HOST,
                                 password=mongo_password,
                                 authSource='admin')
 
-def setup_mongo() -> AsyncMongoClient:
-    mongo_client = AsyncMongoClient(config.mongo.MG_HOST,
-                                    port=config.mongo.MG_PORT,
-                                    username=config.mongo.MG_USERNAME,
-                                    password=mongo_password,
-                                    authSource='admin')
+# def setup_mongo() -> AsyncMongoClient:
+#     mongo_client = AsyncMongoClient(config.mongo.MG_HOST,
+#                                     port=config.mongo.MG_PORT,
+#                                     username=config.mongo.MG_USERNAME,
+#                                     password=mongo_password,
+#                                     authSource='admin')
     
-    return mongo_client
+#     return mongo_client
 
-    # posts = mongo_client.mongo.posts
+#     # posts = mongo_client.mongo.posts
 
-    # await posts.insert_one({
-    #     "author": "Mike",
-    #     "text": "My first blog post!",
-    #     "tags": ["mongodb", "python", "pymongo"],
-    #     "date": "test"
-    # })
+#     # await posts.insert_one({
+#     #     "author": "Mike",
+#     #     "text": "My first blog post!",
+#     #     "tags": ["mongodb", "python", "pymongo"],
+#     #     "date": "test"
+#     # })

@@ -6,21 +6,25 @@ import { listProductsService } from "src/services/products"
 import { useAuthStore } from "src/stores/auth"
 import { ProductForm } from "./product-form"
 import type { ProductFormAction } from "./product-form"
+import { ROLE_ENUM } from "src/models/users"
 
 export const ProductsPage = () => {
     const token = useAuthStore((res) => res.token)
+    const user = useAuthStore((res) => res.user)
 
     const [products, setProducts] = useState<Array<Product>>([])
     const [loading, setLoading] = useState<boolean>(true);
     const [selectedProduct, setSelectedProduct] = useState<{ product: Product | null, action: ProductFormAction }>({ product: null, action: 'create' })
 
+    const canUserEdit = user?.role == ROLE_ENUM.admin || user?.role == ROLE_ENUM.operator
+
     const loadProducts = async () => {
         if (token) {
             listProductsService(token).then((res) => {
-            setProducts(res)
-        }).finally(() => {
-            setLoading(false)
-        })
+                setProducts(res)
+            }).finally(() => {
+                setLoading(false)
+            })
         }
     }
 
@@ -66,14 +70,18 @@ export const ProductsPage = () => {
         {
             key: "actions",
             header: "",
-            render: (_: any, row: Product) => (
-                <button
-                    className="text-emerald-700 hover:underline"
-                    onClick={() => setSelectedProduct({ product: row, action: 'edit' })}
-                >
-                    Modifier
-                </button>
-            ),
+            render: (_: any, row: Product) => {
+                if (canUserEdit) {
+                    return (
+                        <button
+                            className="text-emerald-700 hover:underline"
+                            onClick={() => setSelectedProduct({ product: row, action: 'edit' })}
+                        >
+                            Modifier
+                        </button>
+                    )
+                }
+            }
         },
     ]
 
@@ -81,9 +89,11 @@ export const ProductsPage = () => {
         <div className="p-6 min-h-screen">
             <div className="flex justify-between items-center mb-4">
                 <h1 className="text-2xl font-bold text-center">Liste des produits</h1>
-                <button onClick={addProductHandler} className="flex items-center justify-center bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg shadow-md px-3 py-3 transition-colors duration-200">
-                    Ajouter un produit
-                </button>
+                {canUserEdit && (
+                    <button onClick={addProductHandler} className="flex items-center justify-center bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg shadow-md px-3 py-3 transition-colors duration-200">
+                        Ajouter un produit
+                    </button>
+                )}
             </div>
 
             {loading ? (
