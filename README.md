@@ -19,6 +19,7 @@ Frontend :
 - zustand
 
 Backend:
+- poetry
 - fastapi
 - pgsql
 - sqlalchemy (asyncio)
@@ -28,8 +29,8 @@ Backend:
 
 ## Todo
 ``` 
-- ajout items
-- ajout mangoDB
+- ajout items front
+- gestion des enums meilleur backend
 ```
 
 ## Versions

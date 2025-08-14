@@ -84,7 +84,6 @@ async def edit_product(
     product_id: int,
     req: EditProductRequest
 ) -> None:
-    print(req.description)
     await db_put_product(db, product_id, req.name, req.description, req.photo_uri)
     return
 

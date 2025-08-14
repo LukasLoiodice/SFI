@@ -1,4 +1,5 @@
 from pymongo import AsyncMongoClient
+from pymongo.asynchronous.database import AsyncDatabase
 from src.config import config
 
 # Read the passwords secrets
@@ -14,6 +15,9 @@ class MongoManager():
                                 password=password,
                                 authSource=authSource)
         
+    def get_db(self) -> AsyncDatabase:
+        return self._mongo_client[config.mongo.MG_DBNAME]
+        
     async def close(self):
         await self._mongo_client.close()
 
@@ -22,21 +26,3 @@ mongo_manager = MongoManager(config.mongo.MG_HOST,
                                 username=config.mongo.MG_USERNAME,
                                 password=mongo_password,
                                 authSource='admin')
-
-# def setup_mongo() -> AsyncMongoClient:
-#     mongo_client = AsyncMongoClient(config.mongo.MG_HOST,
-#                                     port=config.mongo.MG_PORT,
-#                                     username=config.mongo.MG_USERNAME,
-#                                     password=mongo_password,
-#                                     authSource='admin')
-    
-#     return mongo_client
-
-#     # posts = mongo_client.mongo.posts
-
-#     # await posts.insert_one({
-#     #     "author": "Mike",
-#     #     "text": "My first blog post!",
-#     #     "tags": ["mongodb", "python", "pymongo"],
-#     #     "date": "test"
-#     # })

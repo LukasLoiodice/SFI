@@ -8,7 +8,7 @@ from src.auth.schemas import TokenData
 from typing import AsyncIterator
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.mongo import mongo_manager
-from pymongo import AsyncMongoClient
+from pymongo.asynchronous.database import AsyncDatabase
 
 secret_key: str
 with open(config.auth.JWT_SECRET_PATH) as f:
@@ -18,8 +18,8 @@ async def get_db() -> AsyncIterator[AsyncSession]:
     async with session_manager.session() as session:
         yield session
 
-async def get_mongo() -> AsyncMongoClient:
-    return mongo_manager
+async def get_mongo() -> AsyncDatabase:
+    return mongo_manager.get_db()
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
@@ -60,5 +60,18 @@ async def get_operator_token(
 
     if data.user_role != "admin" and data.user_role != "operator":
         raise operator_permission_exception
+    
+    return data
+
+async def get_inspector_token(
+        data: Annotated[TokenData, Depends(get_token)]
+) -> TokenData:
+    inspector_permission_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Must be at least inspector to call this API"
+    )
+
+    if data.user_role != "admin" and data.user_role != "inspector":
+        raise inspector_permission_exception
     
     return data

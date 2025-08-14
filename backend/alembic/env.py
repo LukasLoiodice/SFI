@@ -8,10 +8,12 @@ from alembic import context
 from src.models import Base
 from src.users.models import UserModel
 from src.products.models import ProductModel
+from src.items.models import ItemModel
 from src.config import config as app_config
 
 _ = UserModel
 _ = ProductModel
+_ = ItemModel
 
 # Read the password secret
 db_password: str
