@@ -83,6 +83,8 @@ async def get_item_content(
     item_id: int
 ):
     file = await mongo.files.find_one({"_id": item_id})
+    if file == None:
+        raise item_not_found_exception
     return StreamingResponse(io.BytesIO(file["data"]), media_type=file["content_type"])
 
 @router.put('/{item_id}')
@@ -90,7 +92,7 @@ async def update_item_status(
     token: Annotated[auth_service.TokenData, Depends(get_inspector_token)],
     db: Annotated[AsyncSession, Depends(get_db)],
     item_id: int,
-    status: Annotated[str, Body()],
+    status: Annotated[ItemStatus, Body()],
 ):
     await db_update_item_status(db, item_id, token.user_id, status)
     return
