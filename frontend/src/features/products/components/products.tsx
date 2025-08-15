@@ -49,6 +49,10 @@ export const ProductsPage = () => {
 
     const columns = [
         {
+            key: "id",
+            header: "ID"
+        },
+        {
             key: "name",
             header: "Nom",
         },

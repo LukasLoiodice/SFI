@@ -6,7 +6,7 @@ ItemStatus = Literal["unknown", "valid", "invalid"]
 
 class Item(BaseModel):
     id: int
-    product_id: int
+    product_name: str
     status: ItemStatus = Field(default="unknown")
     created_by: int
     updated_by: int
@@ -14,7 +14,7 @@ class Item(BaseModel):
     updated_at: datetime
 
 class AddItemResponse(BaseModel):
-    item: Item
+    id: int
 
 class ListItemsResponse(BaseModel):
     items: list[Item]

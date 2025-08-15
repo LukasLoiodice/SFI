@@ -68,6 +68,9 @@ const NavContextPannel = (props: { user: User | null }) => {
                 <Link to="/products">
                     Produits
                 </Link>
+                <Link to="/items">
+                    Articles
+                </Link>
             </>
         )
     }

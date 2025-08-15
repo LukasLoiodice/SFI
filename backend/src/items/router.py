@@ -41,15 +41,7 @@ async def add_item(
     await mongo.files.insert_one(mongo_doc)
 
     return AddItemResponse(
-        item=Item(
-            id=db_item.id,
-            product_id=db_item.product_id,
-            status=db_item.status,
-            created_by=db_item.created_by,
-            updated_by=db_item.updated_by,
-            created_at=db_item.created_at,
-            updated_at=db_item.updated_at
-        )
+        id=db_item.id
     )
 
 @router.get('/')
@@ -59,12 +51,11 @@ async def list_items(
 ) -> ListItemsResponse:
     db_items = await db_list_items(db)
 
-    # Convert to schema
     items: list[Item] = []
-    for db_item in db_items:
+    for db_item, db_product in db_items:
         items.append(Item(
             id=db_item.id,
-            product_id=db_item.product_id,
+            product_name=db_product.name,
             status=db_item.status,
             created_by=db_item.created_by,
             updated_by=db_item.updated_by,
