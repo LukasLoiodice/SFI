@@ -29,7 +29,10 @@ Backend:
 
 ## Todo
 ``` 
-- ajout items front
+- backend vérifier le fichier est un glb
+- gérer la suppression qui ouvre l'item
+- améliorer visualisation (loader + size)
+- ajouter la validation (+ commentaire ?)
 - gestion des enums meilleur backend
 ```
 

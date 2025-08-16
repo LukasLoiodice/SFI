@@ -10,12 +10,14 @@ type TableProps<T> = {
     columns: Column<T>[];
     data: T[];
     rowKey?: (row: T) => string | number;
+    onRowClick?: (row: T) => void;
 };
 
 export const TableComponent = <T extends Record<string, any>>({
     columns,
     data,
     rowKey,
+    onRowClick,
 }: TableProps<T>) => {
     return (
         <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
@@ -33,20 +35,34 @@ export const TableComponent = <T extends Record<string, any>>({
                     </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                    {data.map((row, idx) => (
-                        <tr key={rowKey ? rowKey(row) : idx}>
-                            {columns.map((col) => (
-                                <td
-                                    key={col.key.toString()}
-                                    className="px-6 py-4 whitespace-nowrap text-sm text-gray-800"
-                                >
-                                    {col.render
-                                        ? col.render(row[col.key as keyof T], row)
-                                        : row[col.key as keyof T]}
-                                </td>
-                            ))}
-                        </tr>
-                    ))}
+                    {data.map((row, idx) => {
+                        const rowId = rowKey ? rowKey(row) : idx
+                        const isClickable = Boolean(onRowClick)
+
+                        return (
+                            <tr
+                                key={rowId}
+                                onClick={() => { isClickable ? onRowClick?.(row) : undefined }}
+                                className={
+                                    isClickable
+                                        ? "hover:bg-gray-50 cursor-pointer transition-colors"
+                                        : ""
+                                }
+                            >
+                                {columns.map((col) => (
+                                    <td
+                                        key={col.key.toString()}
+                                        className="px-6 py-4 whitespace-nowrap text-sm text-gray-800"
+                                    >
+                                        {col.render
+                                            ? col.render(row[col.key as keyof T], row)
+                                            : row[col.key as keyof T]}
+                                    </td>
+                                ))}
+                            </tr>
+                        )
+                    }
+                    )}
                 </tbody>
             </table>
         </div>

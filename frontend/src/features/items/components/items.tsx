@@ -6,6 +6,7 @@ import { ROLE_ENUM } from "src/features/users/model"
 import { TableComponent } from "src/components/table"
 import { ModalComponent } from "src/components/modal"
 import { ItemForm } from "./item-form"
+import { useNavigate } from "react-router"
 
 const ItemStatusToColor = (status: ITEM_STATUS): string => {
     switch (status) {
@@ -30,6 +31,8 @@ export const ItemsPage = () => {
 
     const canUserEdit = user?.role == ROLE_ENUM.admin || user?.role == ROLE_ENUM.operator
 
+    const navigate = useNavigate()
+
 
     const loadItems = async () => {
         if (token) {
@@ -50,13 +53,17 @@ export const ItemsPage = () => {
 
         if (token) {
             await DeleteItemService(token, item.id)
-            loadItems()
+            await loadItems()
         }
     }
 
     const handleAddItem = async () => {
         await loadItems()
         setIsAdding(false)
+    }
+
+    const handleRowClick = async (item: Item) => {
+        navigate(`/items/${item.id}`)
     }
 
     const columns = [
@@ -130,6 +137,7 @@ export const ItemsPage = () => {
                     columns={columns}
                     data={items}
                     rowKey={(u) => u.id}
+                    onRowClick={handleRowClick}
                 />
             )}
 

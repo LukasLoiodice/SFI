@@ -48,20 +48,19 @@ export const AddItemService = async (token: string, file: File, productID: numbe
     }
 }
 
-export const GetItemContentService = async (token: string, itemID: number): Promise<void> => {
+export const GetItemContentService = async (token: string, itemID: number): Promise<ArrayBuffer> => {
     try {
         const response = await axios.get(
             `${backendUrl}/items/${itemID}`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`
-                }
+                },
+                responseType: "arraybuffer"
             }
         )
 
-        console.log(response.data)
-
-        return
+        return response.data
     } catch (error: any) {
         throw new Error(error.response.data.detail)
     }

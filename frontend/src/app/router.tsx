@@ -7,6 +7,7 @@ import Profile from "src/app/pages/profile"
 import Admin from "src/app/pages/admin";
 import Product from "src/app/pages/product";
 import Item from "src/app/pages/item";
+import ItemID from "src/app/pages/itemID"
 
 export const router = createBrowserRouter([
     {
@@ -40,6 +41,10 @@ export const router = createBrowserRouter([
             {
                 path: "items",
                 Component: Item
+            },
+            {
+                path: "items/:itemID",
+                Component: ItemID
             }
         ]
     }
