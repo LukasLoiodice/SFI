@@ -50,6 +50,7 @@ export const ItemsPage = () => {
 
     const handleDeleteItem = async (e: React.FormEvent, item: Item) => {
         e.preventDefault()
+        e.stopPropagation()
 
         if (token) {
             await DeleteItemService(token, item.id)
