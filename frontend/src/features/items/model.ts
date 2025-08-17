@@ -37,7 +37,7 @@ export const ItemStatusToStr = (itemStatus: ITEM_STATUS): string => {
         case ITEM_STATUS_ENUM.valid:
             return "valid"
         case ITEM_STATUS_ENUM.invalid:
-            return "valid"
+            return "invalid"
         default:
             throw new Error(`Role ${itemStatus} is not defined`)
     }

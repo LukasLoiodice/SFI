@@ -29,7 +29,6 @@ Backend:
 
 ## Todo
 ``` 
-- ajouter la validation (+ commentaire ?)
 - gestion des enums meilleur backend
 ```
 

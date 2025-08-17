@@ -5,11 +5,13 @@ import { GetItemContentService, UpdateItemStatusService } from "src/features/ite
 import { useAuthStore } from "src/stores/auth";
 import { ITEM_STATUS_ENUM, type ITEM_STATUS } from "src/features/items/model";
 import { useNavigate } from "react-router";
+import { ROLE_ENUM } from "src/features/users/model";
 
 export const ItemVisualisation = (props: { itemID: number }) => {
     const itemID = props.itemID
 
     const token = useAuthStore((res) => res.token)
+    const user = useAuthStore((res) => res.user)
 
     const canvasRef = useRef<HTMLCanvasElement | null>(null)
 
@@ -17,7 +19,9 @@ export const ItemVisualisation = (props: { itemID: number }) => {
 
     const navigate = useNavigate()
 
-    if (!token ) {
+    const canUserEdit = user?.role == ROLE_ENUM.admin || user?.role == ROLE_ENUM.inspector
+
+    if (!token) {
         return
     }
 
@@ -120,21 +124,24 @@ export const ItemVisualisation = (props: { itemID: number }) => {
     }, [itemID])
 
     return (
-        <div className="relative w-full h-full flex items-center justify-center">
+        <div className="relative min-w-full min-h-full flex items-center justify-center">
             {isLoading && (
                 <div className="absolute inset-0 flex items-center justify-center bg-gray-200">
                     <div className="h-12 w-12 border-4 border-gray-300 border-t-indigo-600 rounded-full animate-spin" />
                 </div>
             )}
             <div className="min-w-full min-h-full">
-                <div className="w-full flex justify-center px-4 py-2 bg-gray-800">
-                    <button onClick={() => { updateStateHandler(ITEM_STATUS_ENUM.invalid) }} className="flex items-center justify-center bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg shadow-md px-3 py-3 transition-colors duration-200 mx-4">
-                        Refuser
-                    </button>
-                    <button onClick={() => { updateStateHandler(ITEM_STATUS_ENUM.valid) }} className="flex items-center justify-center bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg shadow-md px-3 py-3 transition-colors duration-200">
-                        Accepter
-                    </button>
-                </div>
+                {canUserEdit && (
+                    <div className="w-full flex justify-center px-4 py-2 bg-gray-800">
+                        <button onClick={() => { updateStateHandler(ITEM_STATUS_ENUM.invalid) }} className="flex items-center justify-center bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg shadow-md px-3 py-3 transition-colors duration-200 mx-4">
+                            Refuser
+                        </button>
+                        <button onClick={() => { updateStateHandler(ITEM_STATUS_ENUM.valid) }} className="flex items-center justify-center bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg shadow-md px-3 py-3 transition-colors duration-200">
+                            Accepter
+                        </button>
+                    </div>
+                )}
+
                 <canvas
                     ref={canvasRef}
                     className="min-w-full min-h-full bg-gray-200"
