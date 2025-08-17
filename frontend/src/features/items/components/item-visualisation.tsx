@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import * as THREE from 'three';
 import { GLTFLoader, OrbitControls } from "three/examples/jsm/Addons.js";
 import { GetItemContentService } from "../service";
@@ -10,6 +10,8 @@ export const ItemVisualisation = (props: { itemID: number }) => {
     const token = useAuthStore((res) => res.token)
 
     const canvasRef = useRef<HTMLCanvasElement | null>(null)
+
+    const [isLoading, setIsLoading] = useState<Boolean>(true)
 
     useEffect(() => {
         if (!token) return
@@ -66,6 +68,8 @@ export const ItemVisualisation = (props: { itemID: number }) => {
                         model.position.x -= center.x;
                         model.position.y -= center.y;
                         model.position.z -= center.z;
+
+                        setIsLoading(false)
                     })
 
                 } catch (error: any) {
@@ -100,9 +104,16 @@ export const ItemVisualisation = (props: { itemID: number }) => {
     }, [itemID])
 
     return (
-        <canvas
-            ref={canvasRef}
-            className="w-full min-h-full bg-gray-200"
-        />
+        <div className="relative w-full h-full flex items-center justify-center">
+            {isLoading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-200">
+                    <div className="h-12 w-12 border-4 border-gray-300 border-t-indigo-600 rounded-full animate-spin" />
+                </div>
+            )}
+            <canvas
+                ref={canvasRef}
+                className="w-full min-h-full bg-gray-200"
+            />
+        </div>
     )
 }
