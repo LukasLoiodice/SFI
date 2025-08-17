@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, UploadFile, Body
+from fastapi import APIRouter, Depends, UploadFile, Body, status
 from fastapi.responses import StreamingResponse
 from typing import Annotated
 from src.dependencies import get_operator_token, get_db, get_mongo, get_token, get_inspector_token
@@ -22,6 +22,12 @@ async def add_item(
     product_id: Annotated[int, Body()],
     file: UploadFile
 ) -> AddItemResponse:
+    # Ensure the file is a glb file with the magic number https://github.com/KhronosGroup/glTF/blob/main/specification/2.0/Specification.adoc#44-binary-gltf-layout
+    header = await file.read(4)
+    await file.seek(0)
+    if header != b'glTF':
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="invalid glb file")
+
     # Read content
     content = await file.read()
 

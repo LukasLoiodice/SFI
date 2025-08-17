@@ -29,7 +29,6 @@ Backend:
 
 ## Todo
 ``` 
-- backend vérifier le fichier est un glb
 - ajouter la validation (+ commentaire ?)
 - gestion des enums meilleur backend
 ```
