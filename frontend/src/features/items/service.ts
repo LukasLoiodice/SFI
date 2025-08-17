@@ -1,11 +1,10 @@
-import axios from "axios";
-import { backendUrl } from "src/consts/env";
 import { BackToItem, ItemStatusToStr, type Item, type ITEM_STATUS } from "src/features/items/model";
+import { api } from "src/app/api";
 
 export const ListItemsService = async (token: string): Promise<Array<Item>> => {
     try {
-        const response = await axios.get(
-            `${backendUrl}/items/`,
+        const response = await api.get(
+            '/items/',
             {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -28,7 +27,7 @@ export const ListItemsService = async (token: string): Promise<Array<Item>> => {
 
 export const AddItemService = async (token: string, file: File, productID: number): Promise<number> => {
     try {
-        const url = `${backendUrl}/items/`
+        const url = '/items/'
 
         const config = {
             headers: {
@@ -40,7 +39,7 @@ export const AddItemService = async (token: string, file: File, productID: numbe
         formData.append('file', file)
         formData.append('product_id', productID.toString())
 
-        const response = await axios.post(url, formData, config)
+        const response = await api.post(url, formData, config)
 
         return response.data.id
     } catch (error: any) {
@@ -50,8 +49,8 @@ export const AddItemService = async (token: string, file: File, productID: numbe
 
 export const GetItemContentService = async (token: string, itemID: number): Promise<ArrayBuffer> => {
     try {
-        const response = await axios.get(
-            `${backendUrl}/items/${itemID}`,
+        const response = await api.get(
+            `/items/${itemID}`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -68,8 +67,8 @@ export const GetItemContentService = async (token: string, itemID: number): Prom
 
 export const UpdateItemStatusService = async (token: string, itemID: number, status: ITEM_STATUS): Promise<void> => {
     try {
-        await axios.put(
-            `${backendUrl}/items/${itemID}`,
+        await api.put(
+            `/items/${itemID}`,
             {
                 status: ItemStatusToStr(status)
             },
@@ -88,8 +87,8 @@ export const UpdateItemStatusService = async (token: string, itemID: number, sta
 
 export const DeleteItemService = async (token: string, itemID: number): Promise<void> => {
     try {
-        await axios.delete(
-            `${backendUrl}/items/${itemID}`,
+        await api.delete(
+            `/items/${itemID}`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`

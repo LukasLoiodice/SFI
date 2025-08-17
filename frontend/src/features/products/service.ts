@@ -1,11 +1,10 @@
-import axios from "axios";
-import { backendUrl } from "src/consts/env";
 import { BackToProduct, type Product } from "src/features/products/model";
+import { api } from "src/app/api";
 
 export const listProductsService = async (token: string): Promise<Array<Product>> => {
     try {
-        const response = await axios.get(
-            `${backendUrl}/products/`,
+        const response = await api.get(
+            '/products/',
             {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -28,8 +27,8 @@ export const listProductsService = async (token: string): Promise<Array<Product>
 
 export const addProductService = async (token: string, name: string, description: string, photoUri: string): Promise<Product> => {
     try {
-        const response = await axios.post(
-            `${backendUrl}/products/`,
+        const response = await api.post(
+            '/products/',
             {
                 name: name,
                 description: description,
@@ -52,8 +51,8 @@ export const addProductService = async (token: string, name: string, description
 
 export const editProductService = async (token: string, productID: number, name: string, description: string, photoUri: string): Promise<void> => {
     try {
-        await axios.put(
-            `${backendUrl}/products/${productID}`,
+        await api.put(
+            `/products/${productID}`,
             {
                 name: name,
                 description: description,
@@ -74,8 +73,8 @@ export const editProductService = async (token: string, productID: number, name:
 
 export const deleteProductService = async (token: string, productID: number): Promise<void> => {
     try {
-        await axios.delete(
-            `${backendUrl}/products/${productID}`,
+        await api.delete(
+            `/products/${productID}`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`

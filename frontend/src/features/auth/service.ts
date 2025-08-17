@@ -1,13 +1,11 @@
-import axios from "axios";
-import { backendUrl } from "src/consts/env";
 import { StrToRole, type User } from "src/features/users/model";
-
+import { api } from "src/app/api";
 
 
 export async function loginService(email: string, password: string): Promise<string> {
   try {
-    const response = await axios.post(
-      `${backendUrl}/login`,
+    const response = await api.post(
+      '/login',
       new URLSearchParams({
         username: email,
         password: password,
@@ -27,8 +25,8 @@ export async function loginService(email: string, password: string): Promise<str
 
 export async function registerService(user: User, password: string): Promise<void> {
   try {
-    await axios.post(
-      `${backendUrl}/register`,
+    await api.post(
+      '/register',
       {
         "email": user.email,
         "first_name": user.firstName,
@@ -45,8 +43,8 @@ export async function registerService(user: User, password: string): Promise<voi
 
 export async function getCurrentUserService(token: string): Promise<User> {
   try {
-    const response = await axios.get(
-      `${backendUrl}/me`,
+    const response = await api.get(
+      '/me',
       {
         headers: {
           Authorization: `Bearer ${token}`
@@ -73,8 +71,8 @@ export async function getCurrentUserService(token: string): Promise<User> {
 
 export async function editCurrentUserService(token: string, email: string, firstName: string, lastName: string): Promise<void> {
   try {
-    await axios.put(
-      `${backendUrl}/me`,
+    await api.put(
+      '/me',
       {
         email: email,
         first_name: firstName,
@@ -95,8 +93,8 @@ export async function editCurrentUserService(token: string, email: string, first
 
 export async function deleteCurrentUserService(token: string): Promise<void> {
   try {
-    await axios.delete(
-      `${backendUrl}/me`,
+    await api.delete(
+      '/me',
       {
         headers: {
           Authorization: `Bearer ${token}`

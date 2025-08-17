@@ -1,12 +1,11 @@
-import axios from "axios";
-import { backendUrl } from "src/consts/env";
 import type { User } from "src/features/users/model";
 import { StrToRole } from "src/features/users/model";
+import { api } from "src/app/api";
 
 export const listUsersService = async (token: string): Promise<Array<User>> => {
     try {
-        const response = await axios.get(
-            `${backendUrl}/users/`,
+        const response = await api.get(
+            '/users/',
             {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -35,8 +34,8 @@ export const listUsersService = async (token: string): Promise<Array<User>> => {
 
 export const getUserService = async (token: string, userID: number): Promise<User> => {
     try {
-        const res = await axios.get(
-            `${backendUrl}/users/${userID}`,
+        const res = await api.get(
+            `/users/${userID}`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -61,8 +60,8 @@ export const getUserService = async (token: string, userID: number): Promise<Use
 
 export const deleteUserService = async (token: string, userID: number): Promise<void> => {
     try {
-        await axios.delete(
-            `${backendUrl}/users/${userID}`,
+        await api.delete(
+            `/users/${userID}`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -78,8 +77,8 @@ export const deleteUserService = async (token: string, userID: number): Promise<
 
 export const updateUserService = async (token: string, id: number, firstName: string, lastName: string, role: string): Promise<void> => {
     try {
-        await axios.put(
-            `${backendUrl}/users/${id}`,
+        await api.put(
+            `/users/${id}`,
             {
                 first_name: firstName,
                 last_name: lastName,
