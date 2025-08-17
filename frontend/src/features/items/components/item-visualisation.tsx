@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react"
 import * as THREE from 'three';
 import { GLTFLoader, OrbitControls } from "three/examples/jsm/Addons.js";
-import { GetItemContentService } from "../service";
+import { GetItemContentService, UpdateItemStatusService } from "src/features/items/service";
 import { useAuthStore } from "src/stores/auth";
+import { ITEM_STATUS_ENUM, type ITEM_STATUS } from "src/features/items/model";
+import { useNavigate } from "react-router";
 
 export const ItemVisualisation = (props: { itemID: number }) => {
     const itemID = props.itemID
@@ -12,6 +14,20 @@ export const ItemVisualisation = (props: { itemID: number }) => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null)
 
     const [isLoading, setIsLoading] = useState<Boolean>(true)
+
+    const navigate = useNavigate()
+
+    if (!token ) {
+        return
+    }
+
+    const updateStateHandler = async (status: ITEM_STATUS) => {
+        UpdateItemStatusService(token, itemID, status).then(() => {
+            navigate('/items')
+        }).catch((error: any) => {
+            console.log(error)
+        })
+    }
 
     useEffect(() => {
         if (!token) return
@@ -110,10 +126,20 @@ export const ItemVisualisation = (props: { itemID: number }) => {
                     <div className="h-12 w-12 border-4 border-gray-300 border-t-indigo-600 rounded-full animate-spin" />
                 </div>
             )}
-            <canvas
-                ref={canvasRef}
-                className="w-full min-h-full bg-gray-200"
-            />
+            <div className="min-w-full min-h-full">
+                <div className="w-full flex justify-center px-4 py-2 bg-gray-800">
+                    <button onClick={() => { updateStateHandler(ITEM_STATUS_ENUM.invalid) }} className="flex items-center justify-center bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg shadow-md px-3 py-3 transition-colors duration-200 mx-4">
+                        Refuser
+                    </button>
+                    <button onClick={() => { updateStateHandler(ITEM_STATUS_ENUM.valid) }} className="flex items-center justify-center bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg shadow-md px-3 py-3 transition-colors duration-200">
+                        Accepter
+                    </button>
+                </div>
+                <canvas
+                    ref={canvasRef}
+                    className="min-w-full min-h-full bg-gray-200"
+                />
+            </div>
         </div>
     )
 }

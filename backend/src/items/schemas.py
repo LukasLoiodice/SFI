@@ -18,3 +18,6 @@ class AddItemResponse(BaseModel):
 
 class ListItemsResponse(BaseModel):
     items: list[Item]
+
+class UpdateItemStatusRequest(BaseModel):
+    status: ItemStatus

@@ -70,7 +70,9 @@ export const UpdateItemStatusService = async (token: string, itemID: number, sta
     try {
         await axios.put(
             `${backendUrl}/items/${itemID}`,
-            ItemStatusToStr(status),
+            {
+                status: ItemStatusToStr(status)
+            },
             {
                 headers: {
                     Authorization: `Bearer ${token}`

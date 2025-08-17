@@ -89,9 +89,9 @@ async def update_item_status(
     token: Annotated[auth_service.TokenData, Depends(get_inspector_token)],
     db: Annotated[AsyncSession, Depends(get_db)],
     item_id: int,
-    status: Annotated[ItemStatus, Body()],
+    req: UpdateItemStatusRequest,
 ):
-    await db_update_item_status(db, item_id, token.user_id, status)
+    await db_update_item_status(db, item_id, token.user_id, req.status)
     return
 
 @router.delete('/{item_id}')
