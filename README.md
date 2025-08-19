@@ -29,6 +29,7 @@ Backend:
 
 ## Todo
 ``` 
+- page home
 - dockeriser back & front
     - modifier docker compose
     - faire un deployment kubernetes
