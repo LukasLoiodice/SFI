@@ -29,7 +29,6 @@ Backend:
 
 ## Todo
 ``` 
-- refresh token frontend
 - dockeriser back & front
     - modifier docker compose
     - faire un deployment kubernetes

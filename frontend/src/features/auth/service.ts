@@ -2,7 +2,7 @@ import { StrToRole, type User } from "src/features/users/model";
 import { api } from "src/app/api";
 
 
-export async function loginService(email: string, password: string): Promise<string> {
+export async function loginService(email: string, password: string): Promise<{accessToken: string, refreshToken: string}> {
   try {
     const response = await api.post(
       '/login',
@@ -17,7 +17,9 @@ export async function loginService(email: string, password: string): Promise<str
       }
     );
 
-    return response.data.access_token
+    const data = response.data
+
+    return {accessToken: data.access_token, refreshToken: data.refresh_token}
   } catch (error: any) {
     throw new Error(error.response.data.detail)
   }

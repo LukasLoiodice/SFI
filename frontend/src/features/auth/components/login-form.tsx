@@ -11,15 +11,16 @@ export const LoginForm = () => {
 	const [error, setError] = useState('')
 
 	const setCurrentUser = useAuthStore((state) => state.setCurrentUser)
+	const setRefreshToken = useAuthStore((state) => state.setRefreshToken)
 	const navigate = useNavigate()
 
 	const handleLogin = async (e: React.FormEvent) => {
 		e.preventDefault()
 		try {
-			const token = await loginService(email, password)
-			const user = await getCurrentUserService(token)
-			localStorage.setItem("token", token)
-			setCurrentUser(token, user)
+			const {accessToken, refreshToken} = await loginService(email, password)
+			const user = await getCurrentUserService(accessToken)
+			setRefreshToken(refreshToken)
+			setCurrentUser(accessToken, user)
 			navigate("/");
 		} catch (err: any) {
 			setError(err.message);

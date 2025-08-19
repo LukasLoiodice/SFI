@@ -41,7 +41,6 @@ export const ProfileComponent = () => {
         try {
             await deleteCurrentUserService(token)
             clearCurrentUser()
-            localStorage.removeItem("token")
             navigate('/')
         } catch (err: any) {
             setError(err.message);

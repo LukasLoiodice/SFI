@@ -1,27 +1,28 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { getCurrentUserService } from "src/features/auth/service";
 import { useAuthStore } from "src/stores/auth";
+import { setupInterceptor } from "src/app/api";
 
 export function AppProvider({ children }: { children: ReactNode }) {
     const userToken = useAuthStore((state) => state.token)
     const setCurrentUser = useAuthStore((state) => state.setCurrentUser)
+    const clearCurrentUser = useAuthStore((state) => state.clearCurrentUser)
 
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
+        setupInterceptor(clearCurrentUser, () => useAuthStore.getState().refreshToken, setCurrentUser);
+
         if (userToken) {
             getCurrentUserService(userToken).then((user) => {
                 setCurrentUser(userToken, user)
-            }).catch((error) => {
-                console.log(error)
-                localStorage.removeItem("token")
             }).finally(() => {
                 setIsLoading(false)
             })
         } else {
             setIsLoading(false)
         }
-    })
+    }, [clearCurrentUser])
 
     if (isLoading) {
         return (

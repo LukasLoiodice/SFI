@@ -14,7 +14,6 @@ const NavAuthPannel = (props: { user: User | null }): JSX.Element => {
 
     const handleLogout = async () => {
         clearCurrentUser()
-        localStorage.removeItem("token")
     }
 
     if (isLoggedIn) {

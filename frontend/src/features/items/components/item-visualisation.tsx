@@ -121,7 +121,7 @@ export const ItemVisualisation = (props: { itemID: number }) => {
                 renderer.dispose()
             }
         })
-    }, [itemID])
+    }, [itemID, token])
 
     return (
         <div className="relative min-w-full min-h-full flex items-center justify-center">
