@@ -23,7 +23,7 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 def get_password_hash(password: str):
     return pwd_context.hash(password)
 
-def create_access_token(data: dict, expires_delta: timedelta | None = None):
+def create_access_token(data: dict, expires_delta: timedelta | None = None) -> str:
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.now(timezone.utc) + expires_delta
@@ -41,13 +41,36 @@ def decode_access_token(token: str) -> TokenData:
         role = payload.get("role")
         expiration_ts = payload.get("exp")
         expiration = datetime.fromtimestamp(expiration_ts, tz=timezone.utc)
+        type = payload.get("type")
 
         return TokenData(
             user_id=id,
             user_role=role,
-            expiration=expiration
+            expiration=expiration,
+            type=type
         )
     except:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Token invalide ou expiré. Reconnectez-vous"
+        )
+    
+def decode_refresh_token(token: str) -> RefreshTokenData:
+    try:
+        payload = jwt.decode(token, secret_key, algorithms=[config.auth.JWT_ALG])
+
+        id = int(payload.get("sub"))
+        expiration_ts = payload.get("exp")
+        expiration = datetime.fromtimestamp(expiration_ts, tz=timezone.utc)
+        type = payload.get("type")
+
+        return RefreshTokenData(
+            user_id=id,
+            expiration=expiration,
+            type=type
+        )
+    except:
+        pass
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Token invalide ou expiré. Reconnectez-vous"

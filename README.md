@@ -29,7 +29,10 @@ Backend:
 
 ## Todo
 ``` 
-- gestion des enums meilleur backend
+- refresh token frontend
+- dockeriser back & front
+    - modifier docker compose
+    - faire un deployment kubernetes
 ```
 
 ## Versions

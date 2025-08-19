@@ -6,7 +6,7 @@ from src.users import schemas as user_schemas
 from src.users import models as user_models
 from src.config import config
 from src.auth.schemas import *
-from src.dependencies import get_db, get_token
+from src.dependencies import get_db, get_token, get_refresh_token
 from src.auth.service import *
 from src.users import service as user_service
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -31,9 +31,23 @@ async def login(
         )
 
     access_token_expires = timedelta(minutes=config.auth.JWT_EXP)
-    access_token = create_access_token(data={"sub": str(user_model.id), "role": user_model.role}, expires_delta=access_token_expires)
+    refresh_token_expires = timedelta(minutes=config.auth.JWT_REFRESH_EXP)
+    access_token = create_access_token(data={"sub": str(user_model.id), "role": user_model.role, "type": "access"}, expires_delta=access_token_expires)
+    refresh_token = create_access_token(data={"sub": str(user_model.id), "type": "refresh"}, expires_delta=refresh_token_expires)
 
-    return Token(access_token=access_token, token_type="bearer")
+    return Token(access_token=access_token, refresh_token=refresh_token, token_type="bearer")
+
+@router.post("/refresh")
+async def refresh(
+    db: Annotated[AsyncSession, Depends(get_db)],
+    token: Annotated[RefreshTokenData, Depends(get_refresh_token)],
+) -> str:
+    user_model = await user_service.db_get_user(db, token.user_id)
+
+    access_token_expires = timedelta(minutes=config.auth.JWT_EXP)
+    access_token = create_access_token(data={"sub": str(user_model.id), "role": user_model.role, "type": "access"}, expires_delta=access_token_expires)
+    
+    return access_token
 
 @router.post('/register')
 async def register(

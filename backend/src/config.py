@@ -8,6 +8,7 @@ class AuthSettings(BaseModel):
     JWT_ALG: str
     JWT_SECRET_PATH: str
     JWT_EXP: int = 5
+    JWT_REFRESH_EXP: int = 5
 
 class DatabaseSettings(BaseModel):
     DB_HOST: str

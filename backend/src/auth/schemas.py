@@ -5,16 +5,19 @@ from datetime import datetime
 
 class Token(BaseModel):
     access_token: str
+    refresh_token: str
     token_type: str
 
 class TokenData(BaseModel):
     user_id: int
     user_role: Role
     expiration: datetime
+    type: str
 
-class LoginResponse(BaseModel):
-    user: user_schemas.User
-    token: Token
+class RefreshTokenData(BaseModel):
+    user_id: int
+    expiration: datetime
+    type: str
 
 class RegisterRequest(BaseModel):
     email: str

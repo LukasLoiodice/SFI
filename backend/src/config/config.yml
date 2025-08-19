@@ -1,6 +1,7 @@
 auth:
   JWT_ALG: HS256
   JWT_EXP: 15
+  JWT_REFRESH_EXP: 1440 # 1 day
 
 database:
   DB_USERNAME: "postgres"

@@ -1,10 +1,10 @@
 from src.config import config
 from src.database import session_manager
-from src.auth.service import decode_access_token
+from src.auth.service import decode_access_token, decode_refresh_token
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from typing import Annotated
-from src.auth.schemas import TokenData
+from src.auth.schemas import TokenData, RefreshTokenData
 from typing import AsyncIterator
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.mongo import mongo_manager
@@ -21,20 +21,41 @@ async def get_db() -> AsyncIterator[AsyncSession]:
 async def get_mongo() -> AsyncDatabase:
     return mongo_manager.get_db()
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login", refreshUrl="refresh")
+
+credentials_exception = HTTPException(
+    status_code=status.HTTP_401_UNAUTHORIZED,
+    detail="Could not validate credentials"
+)
 
 async def get_token(
         token: Annotated[str, Depends(oauth2_scheme)]
 ) -> TokenData:
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials"
-    )
-
     data = decode_access_token(token)
     if data is None:
         raise credentials_exception
 
+    if data.type != "access":
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid access token"
+        )
+    
+    return data
+
+async def get_refresh_token(
+        token: Annotated[str, Depends(oauth2_scheme)]
+) -> RefreshTokenData:
+    data = decode_refresh_token(token)
+    if data is None:
+        raise credentials_exception
+    
+    if data.type != "refresh":
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid refresh token"
+        )
+    
     return data
 
 async def get_admin_token(
