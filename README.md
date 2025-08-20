@@ -29,10 +29,8 @@ Backend:
 
 ## Todo
 ``` 
-- page home
-- dockeriser back & front
-    - modifier docker compose (front)
-    - faire un deployment kubernetes
+- deployer statiquement mon projet ?
+- faire un deployment kubernetes
 ```
 
 ## Versions

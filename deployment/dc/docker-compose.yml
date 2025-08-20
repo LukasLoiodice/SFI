@@ -43,6 +43,15 @@ services:
     depends_on:
       - postgres
       - mangodb
+  frontend:
+    build:
+      context: ../../frontend
+      args:
+        VITE_BACKEND_URL: "http://localhost:8000"
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
 volumes:
   db-data:
   mango-data:
