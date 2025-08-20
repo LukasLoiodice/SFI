@@ -31,7 +31,7 @@ Backend:
 ``` 
 - page home
 - dockeriser back & front
-    - modifier docker compose
+    - modifier docker compose (front)
     - faire un deployment kubernetes
 ```
 

@@ -1,0 +1,22 @@
+auth:
+  JWT_ALG: HS256
+  JWT_EXP: 15
+  JWT_REFRESH_EXP: 1440 # 1 day
+
+database:
+  DB_USERNAME: "SFI-USER"
+  DB_HOST: "postgres"
+  DB_PORT: 5432
+  DB_NAME: "SFI-DB"
+  DB_ECHO: false
+
+mongo:
+  MG_USERNAME: "SFI-MONGO-USER"
+  MG_HOST: "mangodb"
+  MG_PORT: 27017
+  MG_DBNAME: "SFI-MONGO-DB"
+
+admin:
+  ADMIN_EMAIL: "admin@example.com" 
+  ADMIN_FIRST_NAME: "admin"
+  ADMIN_LAST_NAME: "admin"

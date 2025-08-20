@@ -1,0 +1,57 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: SFI-USER
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+      POSTGRES_DB: SFI-DB
+    ports:
+      - 5321:5432
+    volumes:
+      - db-data:/var/lib/postgresql/data:cached
+    secrets:
+       - db_password
+  mangodb:
+    image: mongodb/mongodb-community-server:latest
+    ports:
+      - "27017:27017"
+    environment:
+      MONGODB_INITDB_ROOT_USERNAME: SFI-MONGO-USER
+      MONGODB_INITDB_ROOT_PASSWORD_FILE: /run/secrets/mongo_password
+      MONGO_INITDB_DATABASE: SFI-MONGO-DB
+    volumes:
+      - mango-data:/var/lib/mangodb/data:cached
+    secrets:
+       - mongo_password
+  backend:
+    build: ../../backend
+    ports:
+      - "8000:80"
+    environment:
+      AUTH__JWT_SECRET_PATH: /run/secrets/jwt_secret
+      DATABASE__DB_PASSWORD_PATH: /run/secrets/db_password
+      MONGO__MG_PASSWORD_PATH: /run/secrets/mongo_password
+      ADMIN__ADMIN_PASSWORD_HASH_PATH: /run/secrets/admin_password_hash
+    secrets:
+       - jwt_secret
+       - db_password
+       - mongo_password
+       - admin_password_hash
+    volumes:
+      - ./config/config.yml:/app/src/config/config.yml:ro
+    depends_on:
+      - postgres
+      - mangodb
+volumes:
+  db-data:
+  mango-data:
+secrets:
+  jwt_secret:
+    file: ./secrets/jwt_secret
+  db_password:
+    file: ./secrets/db_password
+  mongo_password:
+    file: ./secrets/mongo_password
+  admin_password_hash:
+    file: ./secrets/admin_password_hash
