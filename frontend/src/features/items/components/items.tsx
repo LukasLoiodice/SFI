@@ -8,7 +8,7 @@ import { ModalComponent } from "src/components/modal"
 import { ItemForm } from "./item-form"
 import { useNavigate } from "react-router"
 
-const ItemStatusToColor = (status: ITEM_STATUS): string => {
+export const ItemStatusToColor = (status: ITEM_STATUS): string => {
     switch (status) {
         case ITEM_STATUS_ENUM.unknown:
             return "bg-yellow-100 text-yellow-800"

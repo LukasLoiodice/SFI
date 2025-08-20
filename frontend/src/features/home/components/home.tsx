@@ -2,28 +2,25 @@ import { Link, Navigate } from 'react-router';
 import { ROLE_ENUM, RoleToStr } from 'src/features/users/model';
 import { useAuthStore } from 'src/stores/auth';
 import { TableComponent } from 'src/components/table';
+import { useEffect, useState } from 'react';
+import { ListItemsService } from 'src/features/items/service';
+import { ITEM_STATUS_ENUM, ItemStatusToStr, type Item } from 'src/features/items/model';
+import { ItemStatusToColor } from 'src/features/items/components/items';
 
 const actionsByRole = {
     [ROLE_ENUM.operator]: [
-        { label: 'Ajouter un produit', to: '/add-product', icon: '➕' },
-        { label: 'Créer un item', to: '/create-item', icon: '🆕' },
+        { label: 'Ajouter un produit', to: '/products', icon: '➕' },
+        { label: 'Créer un item', to: '/items', icon: '🆕' },
     ],
     [ROLE_ENUM.inspector]: [
-        { label: 'Voir les items à inspecter', to: '/items-to-inspect', icon: '🔍' },
-        { label: 'Signaler un défaut', to: '/report-defect', icon: '⚠️' },
+        { label: 'Voir les items à inspecter', to: '/items', icon: '🔍' },
+        { label: 'Signaler un défaut', to: '/items', icon: '⚠️' },
     ],
     [ROLE_ENUM.admin]: [
-        { label: 'Gérer les utilisateurs', to: '/manage-users', icon: '👥' },
-        { label: 'Voir tous les produits', to: '/all-products', icon: '📦' },
+        { label: 'Gérer les utilisateurs', to: '/admin', icon: '👥' },
+        { label: 'Voir tous les produits', to: '/products', icon: '📦' },
     ],
 };
-
-type Item = {
-    id: number;
-    product: string;
-    status: string;
-};
-
 const columns = [
     {
         key: "id",
@@ -33,22 +30,21 @@ const columns = [
         ),
     },
     {
-        key: "product",
+        key: "productName",
         header: "Produit",
     },
     {
         key: "status",
         header: "Statut",
-        render: (value: string) => (
-            <span
-                className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${value === "Validé"
-                    ? "bg-green-100 text-green-800"
-                    : "bg-yellow-100 text-yellow-800"
-                    }`}
-            >
-                {value}
-            </span>
-        ),
+        render: (_: string, row: Item) => {
+            return (
+                <span
+                    className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${ItemStatusToColor(row.status)} capitalize`}
+                >
+                    {ItemStatusToStr(row.status)}
+                </span>
+            )
+        }
     },
 ];
 
@@ -57,23 +53,22 @@ export const HomeComponent = () => {
     const token = useAuthStore((state) => state.token)
     const user = useAuthStore((state) => state.user)
 
+    const [items, setItems] = useState<Item[]>([])
+
+    useEffect(() => {
+        if (token && user) {
+            ListItemsService(token).then((res) => {
+                const lastItems = user.role === ROLE_ENUM.inspector
+                    ? res.filter((i) => i.status == ITEM_STATUS_ENUM.unknown).slice(0, 5)
+                    : res.slice(0, 5);
+                setItems(lastItems)
+            })
+        }
+    }, [token])
+
     if (!user || !token) {
         return <Navigate to="/login" />
     }
-
-    const items = [
-        { id: 1052, product: 'Rotor hélico', toInspect: true, status: 'En attente' },
-        { id: 1024, product: 'Câble A320', toInspect: false, status: 'Validé' },
-        { id: 1023, product: 'Visserie avion', toInspect: false, status: 'Validé' },
-        { id: 1019, product: 'Batterie drone', toInspect: false, status: 'Validé' },
-        { id: 1017, product: 'Écran tactile', toInspect: false, status: 'Validé' },
-        { id: 1008, product: 'Sonde température', toInspect: false, status: 'Validé' },
-    ];
-
-    const lastItems: Item[] =
-        user.role === ROLE_ENUM.inspector
-            ? items.filter((i) => i.toInspect).slice(0, 5)
-            : items.slice(0, 5);
 
     return (
         <div className="max-w-6xl min-h-screen mx-auto p-8 space-y-12">
@@ -119,13 +114,13 @@ export const HomeComponent = () => {
                 <h2 className="text-2xl font-semibold mb-4 text-gray-800">
                     {user.role === ROLE_ENUM.inspector ? 'Items à inspecter' : 'Derniers items ajoutés'}
                 </h2>
-                {lastItems.length === 0 ? (
+                {items.length === 0 ? (
                     <p className="text-gray-500 italic">Aucun item à afficher.</p>
                 ) : (
                     <TableComponent
                         columns={columns}
-                        data={lastItems}
-                        rowKey={(row) => row.id} 
+                        data={items}
+                        rowKey={(row) => row.id}
                     />
                 )}
             </section>
