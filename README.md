@@ -30,7 +30,7 @@ Backend:
 ## Todo
 ``` 
 - deployer statiquement mon projet ?
-- faire un deployment kubernetes
+- améliorer enums front
 ```
 
 ## Versions

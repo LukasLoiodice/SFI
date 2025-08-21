@@ -1,4 +1,7 @@
-#!/bin/sh
+#!/bin/bash
+
+SCRIPT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+cd $SCRIPT_PATH
 
 # build docker image
 eval $(minikube docker-env)
