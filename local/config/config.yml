@@ -15,6 +15,7 @@ mongo:
   MG_HOST: "mangodb"
   MG_PORT: 27017
   MG_DBNAME: "SFI-MONGO-DB"
+  MG_AUTH_SOURCE: "admin"
 
 admin:
   ADMIN_EMAIL: "admin@example.com" 

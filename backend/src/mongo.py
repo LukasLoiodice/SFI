@@ -25,4 +25,4 @@ mongo_manager = MongoManager(config.mongo.MG_HOST,
                                 port=config.mongo.MG_PORT,
                                 username=config.mongo.MG_USERNAME,
                                 password=mongo_password,
-                                authSource='admin')
+                                authSource=config.mongo.MG_AUTH_SOURCE)

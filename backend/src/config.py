@@ -24,6 +24,7 @@ class MongoSettings(BaseModel):
     MG_HOST: str
     MG_PORT: int
     MG_DBNAME: str
+    MG_AUTH_SOURCE: str
 
 class AdminSettings(BaseModel):
     ADMIN_EMAIL: str

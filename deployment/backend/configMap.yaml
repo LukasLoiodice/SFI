@@ -18,9 +18,10 @@ data:
 
     mongo:
       MG_USERNAME: "SFI-MONGO-USER"
-      MG_HOST: "mangodb"
+      MG_HOST: "mongodb"
       MG_PORT: 27017
       MG_DBNAME: "SFI-MONGO-DB"
+      MG_AUTH_SOURCE: "SFI-MONGO-DB"
 
     admin:
       ADMIN_EMAIL: "admin@example.com" 
