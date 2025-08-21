@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: backend:local
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          env:
+            - name: AUTH__JWT_SECRET_PATH
+              value: /app/secrets/jwt_secret
+            - name: DATABASE__DB_PASSWORD_PATH
+              value: /app/secrets/db_password
+            - name: MONGO__MG_PASSWORD_PATH
+              value: /app/secrets/mongo_password
+            - name: ADMIN__ADMIN_PASSWORD_HASH_PATH
+              value: /app/secrets/admin_password_hash
+          volumeMounts:
+            - name: secrets
+              mountPath: /app/secrets
+              readOnly: true
+            - name: config
+              mountPath: /app/src/config/config.yml
+              subPath: config.yml
+      volumes:
+        - name: secrets
+          secret:
+            secretName: sfi-secrets
+        - name: config
+          configMap:
+            name: sfi-config
