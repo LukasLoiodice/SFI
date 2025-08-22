@@ -2,7 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.items.models import *
 from src.items.schemas import *
 from src.products.models import ProductModel
-from sqlalchemy import select
+from sqlalchemy import select, delete
 from fastapi import HTTPException, status
 from typing import Tuple
 
@@ -25,6 +25,11 @@ async def db_add_item(db: AsyncSession, user_id: int, product_id: int) -> ItemMo
 async def db_list_items(db: AsyncSession) -> list[Tuple[ItemModel, ProductModel]]:
     db_items = (await db.execute(select(ItemModel, ProductModel).join(ProductModel, ItemModel.product_id == ProductModel.id))).all()
     return db_items
+
+async def db_delete_items_by_product(db: AsyncSession, product_id: int) -> None:
+    await db.execute(delete(ItemModel).where(ItemModel.product_id == product_id))
+    await db.commit()
+    return
 
 async def db_update_item_status(db: AsyncSession, id: int, user_id: int, status: ItemStatus):
     db_item = await db.scalar(select(ItemModel).where(ItemModel.id == id))

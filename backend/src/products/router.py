@@ -5,6 +5,7 @@ from src.dependencies import get_token, get_operator_token, get_db
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.products.schemas import *
 from src.products.service import *
+from src.items import service as items_service
 
 router = APIRouter(
     tags=["products"],
@@ -93,5 +94,8 @@ async def delete_product(
     db: Annotated[AsyncSession, Depends(get_db)],
     product_id: int,    
 ) -> None:
+    # Delete items associated with the product
+    await items_service.db_delete_items_by_product(db, product_id)
+
     await db_delete_product(db, product_id)
     return
