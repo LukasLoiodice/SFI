@@ -29,8 +29,9 @@ Backend:
 
 ## Todo
 ``` 
-- deployer statiquement mon projet ?
+- faire un README
 - améliorer enums front
+- passer le refresh token en cookie http only
 ```
 
 ## Versions
