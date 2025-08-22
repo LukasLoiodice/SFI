@@ -32,3 +32,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/")
+def root():
+    return {"message": "Backend is running. Visit /docs for API documentation."}
