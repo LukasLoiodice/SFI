@@ -37,6 +37,7 @@ async def add_item(
     # Create mongo document
     mongo_doc = {}
     mongo_doc["_id"] = db_item.id
+    mongo_doc["product_id"] = db_item.product_id
     mongo_doc["filename"] = file.filename
     mongo_doc["content_type"] = file.content_type
     mongo_doc["uploaded_by"] = token.user_id
