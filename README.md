@@ -26,11 +26,10 @@ username: admin@example.com
 password: 123
 ```
 
-> **⚠️Disclaimers⚠️**:
->
-> * Some decisions were simplified to facilitate local development and learning (e.g., storing 3D files in MongoDB instead of a cloud bucket, exposing secrets for Minikube and local testing). In a real project, these secrets would never be exposed, as demonstrated with the GKE deployment.
-> * There are still opportunities to improve the backend, frontend, and security, particularly regarding code quality (refactoring and documentation). I am aware of these areas. The primary goal of this project was to implement features quickly rather than deliver a fully polished product.
-> * This project is primarily a lab for experimenting with a modern cloud-native stack.
+### ⚠️Disclaimers⚠️:
+* Some decisions were simplified to facilitate local development and learning (e.g., storing 3D files in MongoDB instead of a cloud bucket, exposing secrets for Minikube and local testing). In a real project, these secrets would never be exposed, as demonstrated with the GKE deployment.
+* There are still opportunities to improve the backend, frontend, and security, particularly regarding code quality (refactoring and documentation). I am aware of these areas. The primary goal of this project was to implement features quickly rather than deliver a fully polished product.
+* This project is primarily a lab for experimenting with a modern cloud-native stack.
 ---
 
 ## Features
