@@ -111,6 +111,13 @@ cd ./local
 docker compose up -d
 ```
 
+The app is accessible through http://localhost.
+
+3. Cleanup
+```bash
+docker compose down -v
+```
+
 ---
 
 ### Run with minikube
@@ -137,6 +144,13 @@ source ./env.sh
 4. Set up Minikube load balancers:
 ```bash
 minikube tunnel
+```
+
+The app is accessible through http://localhost.
+
+5. Cleanup
+```bash
+minikube delete
 ```
 
 ---
