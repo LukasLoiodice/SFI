@@ -167,8 +167,10 @@ Also, load balancers are not exposed for the frontend and backend services, they
 ---
 
 ## Demo
+<div>
+<video src='./samples/Demo.mp4' />
+</div>
 
-![demonstration](./samples/Demo.mp4)
 
 ## Contact
 
