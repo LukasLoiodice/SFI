@@ -167,9 +167,9 @@ Also, load balancers are not exposed for the frontend and backend services, they
 ---
 
 ## Demo
-<div>
-<video src='./samples/Demo.mp4' />
-</div>
+
+https://github.com/user-attachments/assets/bbd6ea84-d209-40ba-aabf-6abe9153122e
+
 
 
 ## Contact
