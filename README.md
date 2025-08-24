@@ -16,7 +16,7 @@
 ## Introduction
 
 **Smart Factory Inspector** is a full-stack web application simulating an industrial platform for tracking and inspecting mechanical parts.
-The main goal of this project is **educational**: to learn how to **build a complete end-to-end web application** with a backend, frontend, relational and NoSQL databases, and Kubernetes deployment (Minikube and GKE).
+The main goal of this project is **educational**: to understand better the processes of **building a complete end-to-end web application** with a backend, frontend, relational and NoSQL databases, and Kubernetes deployment (Minikube and GKE).
 
 As of 23/08/2025, the project is hosted on GKE using the free tier. Please note that the following link may become unavailable if the free credits expire or the deadline is exceeded: https://sfi-app.com/.
 
@@ -27,7 +27,8 @@ password: 123
 ```
 
 ### ⚠️Disclaimers⚠️:
-* Some decisions were simplified to facilitate local development and learning (e.g., storing 3D files in MongoDB instead of a cloud bucket, exposing secrets for Minikube and local testing). In a real project, these secrets would never be exposed, as demonstrated with the GKE deployment.
+* Some decisions were simplified to facilitate development/learning. For instance, I chose MongoDB to store the 3D objects, as I wanted to experiment with a NoSQL database. In a real project, these files would typically be stored in a cloud bucket.
+* To simplify running the application with Docker Compose and Minikube by someone else, some secrets have been exposed. In a real project, these secrets would never be exposed, as demonstrated in the GKE deployment.
 * There are still opportunities to improve the backend, frontend, and security, particularly regarding code quality (refactoring and documentation). I am aware of these areas. The primary goal of this project was to implement features quickly rather than deliver a fully polished product.
 * This project is primarily a lab for experimenting with a modern cloud-native stack.
 ---
