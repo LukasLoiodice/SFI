@@ -10,7 +10,8 @@
    - [Run with Docker Compose](#run-with-docker-compose)
    - [Run with Minikube](#run-with-minikube)
    - [Deployment on GKE](#deployment-on-gke)
-5. [Contact](#contact)
+5. [Demo](#demo)
+6. [Contact](#contact)
 
 
 ## Introduction
