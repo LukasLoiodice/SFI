@@ -24,6 +24,22 @@ services:
       - mango-data:/var/lib/mangodb/data:cached
     secrets:
        - mongo_password
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+  grafana:
+    image: grafana/grafana
+    ports:
+      - 3000:3000
+    volumes:
+      - ./grafana:/etc/grafana
+      - grafana-data:/var/lib/grafana
   backend:
     build: ../backend
     ports:
@@ -55,6 +71,8 @@ services:
 volumes:
   db-data:
   mango-data:
+  prometheus-data:
+  grafana-data:
 secrets:
   jwt_secret:
     file: ./secrets/jwt_secret

@@ -9,6 +9,7 @@ from src.users.models import *
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from src.mongo import *
+from prometheus_fastapi_instrumentator import Instrumentator
 
 @asynccontextmanager
 async def startup_event(app: FastAPI):
@@ -32,6 +33,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+Instrumentator().instrument(app).expose(app)
 
 @app.get("/")
 def root():
