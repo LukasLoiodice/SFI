@@ -113,6 +113,7 @@ cd SFI
 
 ```bash
 cd ./local
+docker compose build
 docker compose up -d
 ```
 
@@ -131,6 +132,8 @@ docker compose down -v
 
 ### Run with minikube
 
+To deploy it with minikube, `kubectl` and `helm` are required.
+
 1. Clone the repository:
 
 ```bash
@@ -143,14 +146,21 @@ cd SFI
 minikube start
 ```
 
-3. Deploy all components (requires `kubectl` and `helm`):
+3. Install helm charts:
+```bash
+helm repo add bitnami https://charts.bitnami.com/bitnami # pgsql & mongodb
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts # prometheus
+helm repo add grafana https://grafana.github.io/helm-charts # grafana
+helm repo update
+```
+
+4. Deploy all components :
 ```bash
 cd deployment
-source ./env.sh
 ./deploy.sh
 ```
 
-4. Set up Minikube load balancers:
+5. Set up Minikube load balancers:
 ```bash
 minikube tunnel
 ```
@@ -161,7 +171,7 @@ Documentation through http://localhost:8000/docs.
 
 Grafana through http://localhost:3000 (username: admin@example.com, password: 123).
 
-5. Cleanup
+6. Cleanup
 ```bash
 minikube delete
 ```
