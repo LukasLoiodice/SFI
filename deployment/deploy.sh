@@ -6,3 +6,5 @@ source ./env.sh
 ./mongodb/deploy.sh
 ./backend/deploy.sh
 ./frontend/deploy.sh
+./prometheus/deploy.sh
+./grafana/deploy.sh

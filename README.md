@@ -39,6 +39,7 @@ password: 123
 * Two CRUD APIs with strong relationships: Product and Item.
 * APIs to upload and download 3D files (.glb) stored in MongoDB (in a real project, a cloud bucket would be used). 3D object visualization with Three.js.
 * Reactive frontend tightly coupled with the backend.
+* Simple monitoring via Prometheus and Grafana (a default dashboard is provided).
 * Cloud-native architecture ready for Minikube and GKE. Deployment on GCP includes features such as TLS, load balancing, and more, using the free tier. A domain name has been registered via Cloudflare https://sfi-app.com/.
 ---
 
@@ -50,6 +51,7 @@ password: 123
 | Backend       | Poetry + Python + FastAPI + Alembic + SqlAlchemy (async) + PyMongo (async) |
 | DB | Relational: PostgreSQL + NoSQL: MongoDB |
 | Deployment    | Docker + Docker compose + Kubernetes (Minikube, GKE) + Helm chart |
+| Monitoring    | Prometheus + Grafana |
 
 ---
 
@@ -115,6 +117,10 @@ docker compose up -d
 
 The app is accessible through http://localhost.
 
+Documentation through http://localhost:8000/docs.
+
+Grafana through http://localhost:3000 (username: admin, password: admin).
+
 3. Cleanup
 ```bash
 docker compose down -v
@@ -149,6 +155,10 @@ minikube tunnel
 ```
 
 The app is accessible through http://localhost.
+
+Documentation through http://localhost:8000/docs.
+
+Grafana through http://localhost:3000 (username: admin@example.com, password: 123).
 
 5. Cleanup
 ```bash
