@@ -182,6 +182,8 @@ minikube delete
 
 You can access the application at: https://sfi-app.com/.
 
+Documentation through https://backend.sfi-app.com/docs.
+
 The GKE deployment is very similar to the Minikube setup, except that the secrets are, of course, different.
 
 Also, load balancers are not exposed for the frontend and backend services, they are defined as ClusterIP. An Ingress is used to route requests to the services through a GCP-hosted load balancer, which also manages TLS certificates. All Docker images are stored in the GCP Container Registry.
