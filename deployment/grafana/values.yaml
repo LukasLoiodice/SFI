@@ -1903,6 +1903,14 @@ dashboards:
           "version": 5,
           "weekStart": ""
         }
+    pgsql-dashboard:
+      gnetId: 9628
+      revision: 8
+      datasource: Prometheus
+    mongodb-dashboard:
+      gnetId: 2583
+      revision: 2
+      datasource: Prometheus
   #   some-dashboard:
   #     json: |
   #       $RAW_JSON
